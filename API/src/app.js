@@ -10,6 +10,7 @@ import { connectDB } from "./config/db.js"
 
 
 import userRouter from "./routes/user.router.js";
+import promotionRouter from "./routes/promotionRoutes.js";
 
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/users", userRouter);
+app.use('/api/promotions',promotionRouter);
 
 
 
