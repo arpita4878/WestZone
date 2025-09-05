@@ -1,0 +1,253 @@
+  			User 
+----------------------------------------------
+user schema
+_id,name,surname,designation,email,phone,role,branch,register_date,point,orderCount,
+total_order,Nationality,Birthdate
+
+
+
+ 1. For user registration
+ method-->POST
+ URL--->http://localhost:5000/api/users/register
+ body-->{
+    "designation":"MR",
+  "name": "demo",
+  "surname": "demo",
+  "email": "demo@gmail.com",
+  "phone":"+919988776655",
+  "password": "123456",
+  "confirmPassword": "123456",
+  "role": "online_customer",
+    "nationality":"India"
+}
+
+for online customer need password 
+for super market customer no need password --offline shopping 
+
+
+
+
+2.Login
+Method-->POST
+URL-->http://localhost:5000/api/users/login
+body-->{
+    "email": "vinay@gmail.com",
+    "password": "vinay@123"
+}
+
+
+
+
+3.refresh-token
+Method-->POST
+URL-->http://localhost:5000/api/users/refresh-token
+body-->empty
+
+
+
+
+4.Password change manually
+Method-->POST
+URL-->http://localhost:5000/api/users/change-password
+body-->{ "userId":"test@gmail.com",
+    "oldPassword": "123456", "newPassword": "1234567" }
+
+
+
+
+5.Reset Password
+Method-->POST
+URL-->http://localhost:5000/api/users/forgot-password
+body-->{
+    "email": "test@gmail.com"
+}
+
+it give you a reset link look like--{
+    "message": "Password reset link sent",
+    "resetUrl": "http://localhost:5000/api/users/reset/4d813a8dac8e7a6cad95584ec5848413a76ddddcdd94ab64b9d3505ba2f03c88"
+}
+
+valid for 15 min
+
+click on link then in body send 
+{"password":"123456"}
+
+all working done by post request
+
+
+
+
+6.Get all user data
+Method-->GET
+URL-->http://localhost:5000/api/users/getdata
+params-->empty
+
+
+
+
+7.fetch user detail specific
+Method-->GET
+URL-->http://localhost:5000/api/users/getdata?email=test@gmail.com
+params-->email:test@gmail.com,_id:3
+
+
+
+8.Update user data
+Method-->PATCH
+URL-->http://localhost:5000/api/users/updateUser
+body-->
+{
+  "condition_obj": {
+    "email": "test@gmail.com"
+  },
+  "content_obj": {
+    "name": "testing"
+  }
+}
+
+
+
+9.fetch user data using phone number ----only user role==supermarket_customer, online_customer
+Method-->GET
+URL-->http://localhost:5000/api/users/get-customer/0987654321
+params-->emty
+
+
+
+10.delete user
+Method-->DELETE
+URL-->http://localhost:5000/api/users/delete
+body-->{
+  "email": "test22@gmail.com"
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+			BRAND-------> 
+	operation only done by admin ----> need token in auth ----> without toekn this operation not working
+
+-------------------------------------------------
+
+
+1.create brand 
+METHOD->POST
+URL->http://localhost:5000/api/brand
+BODY->{
+  "brandName": "Samsung",
+  "isInList": true,
+  "image": "https://i.pinimg.com/1200x/00/cc/1b/00cc1b2d9e3d0b247b2a389abaaedb37.jpg"
+}
+
+
+
+-------------------------no auth access by all 
+2.fetch all brand 
+METHOD->GET
+URL->http://localhost:5000/api/brand
+params->empty
+
+
+
+3.Update brand 
+METHOD->PUT
+URL->http://localhost:5000/api/brand/1
+BODY->{
+  "brandName": "Samsung phone",
+  "isInList": true,
+  "image": "https://i.pinimg.com/1200x/00/cc/1b/00cc1b2d9e3d0b247b2a389abaaedb37.jpg"
+}
+
+
+
+4.delete brand 
+METHOD->DELETE
+URL->http://localhost:5000/api/brand/1
+
+
+
+1. brand with its product 
+METHOD->
+URL->
+BODY->
+
+
+
+
+------------------------------------------------------------------------------------------------------
+
+	CATEGORY-----SUBCATEGPORY
+	
+------------------------------------------------
+
+1.CREATE
+METHOD->
+URL->
+BODY->
+
+
+
+
+1.CREATE
+METHOD->
+URL->
+BODY->
+
+
+
+1.CREATE
+METHOD->
+URL->
+BODY->
+
+
+
+
+1.CREATE
+METHOD->
+URL->
+BODY->
+
+
+
+
+1.CREATE
+METHOD->
+URL->
+BODY->
+
+
+
+
+1.CREATE
+METHOD->
+URL->
+BODY->
+
+
+
+1.CREATE
+METHOD->
+URL->
+BODY->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
