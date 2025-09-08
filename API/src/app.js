@@ -10,7 +10,8 @@ import { connectDB } from "./config/db.js"
 
 
 import userRouter from "./routes/user.router.js";
-import brandRouter from './routes/brand.router.js'
+import brandRouter from './routes/brand.router.js';
+import categoryRouter from "./routes/category.router.js"
 
 
 const app = express();
@@ -23,7 +24,7 @@ app.use(cookieParser());
 
 app.use("/api/users", userRouter);
 app.use("/api/brand",brandRouter)
-
+app.use("/api/category",categoryRouter)
 
 
 

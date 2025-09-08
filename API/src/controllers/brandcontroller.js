@@ -23,6 +23,8 @@ export const createBrand = async (req, res) => {
 }
 
 
+
+
 export const getBrands = async (req, res) => {
     try {
         const brands = await Brands.find();
@@ -32,6 +34,9 @@ export const getBrands = async (req, res) => {
         res.status(500).json({ status: false, messsage: err.message })
     }
 }
+
+
+
 
 export const updateBrand = async (req, res) => {
     try {
