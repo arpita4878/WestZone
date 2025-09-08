@@ -10,11 +10,12 @@ import { connectDB } from "./config/db.js"
 
 
 import userRouter from "./routes/user.router.js";
-
 import brandRouter from './routes/brand.router.js';
 import categoryRouter from "./routes/category.router.js"
-
+// import brandRouter from './routes/brand.router.js'
 import promotionRouter from "./routes/promotionRoutes.js";
+import newOfferZoneRoutes from "./routes/newOfferZone.routes.js";
+import feedbackRoutes from "./routes/feedback.routes.js";
 
 
 
@@ -27,12 +28,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/users", userRouter);
-
-app.use("/api/brand",brandRouter)
-
+app.use("/api/brand",brandRouter);
 app.use('/api/promotions',promotionRouter);
-
 app.use("/api/category",categoryRouter)
+
+app.use("/api/new-offer-zone", newOfferZoneRoutes);
+app.use("/api/feedback", feedbackRoutes);
+
 
 
 
