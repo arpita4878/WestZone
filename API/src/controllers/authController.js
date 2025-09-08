@@ -141,7 +141,6 @@ export const login = async (req, res) => {
       });
     }
 
-    
     if (user.role === "supermarket_customer") {
       return res.status(403).json({
         status: false,
