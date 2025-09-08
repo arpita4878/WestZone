@@ -10,12 +10,12 @@ import { connectDB } from "./config/db.js"
 
 
 import userRouter from "./routes/user.router.js";
-<<<<<<< HEAD
+
 import brandRouter from './routes/brand.router.js';
 import categoryRouter from "./routes/category.router.js"
-=======
+
 import promotionRouter from "./routes/promotionRoutes.js";
->>>>>>> promotion
+
 
 
 const app = express();
@@ -27,18 +27,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/users", userRouter);
-<<<<<<< HEAD
+
 app.use("/api/brand",brandRouter)
-=======
+
 app.use('/api/promotions',promotionRouter);
->>>>>>> promotion
+
 app.use("/api/category",categoryRouter)
 
 
 
 connectDB().then(() => {
-  app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+  app.listen(port, '0.0.0.0',() => {
+    console.log(`Server running on port ${port},192.168.0.126:5000`);
   });
 });
 
+//http://192.168.0.126:5000/api/data'
+//for ui
