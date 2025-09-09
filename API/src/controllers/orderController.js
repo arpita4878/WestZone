@@ -2,6 +2,27 @@ import Order from "../models/order.model.js";
 import User from "../models/user.model.js";
 import Inventory from "../models/inventory.model.js";
 import Branch from "../models/branch.model.js";
+import { getIO } from "../socket.js";
+
+
+export const notifyBranch = (req, res) => {
+  const { branchId, orderId, status } = req.body;
+  if (!branchId || !orderId) {
+    return res.status(400).json({ message: "branchId and orderId are required" });
+  }
+
+  const io = getIO();
+  io.to(String(branchId)).emit("newOrder", {
+    branchId,
+    orderId,
+    status: status || "pending",
+    time: new Date(),
+  });
+
+  res.json({ message: "Notification sent", branchId, orderId });
+};
+
+
 
 function haversineKm([lng1, lat1], [lng2, lat2]) {
   const toRad = x => (x * Math.PI) / 180;

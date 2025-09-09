@@ -16,7 +16,8 @@ import {
   cancelledOrders,
   listGoneForDeliveryOrders,
   getOrderByUserAndId,
-  getOrdersByUser
+  getOrdersByUser,
+  notifyBranch
 } from "../controllers/orderController.js"
 
 import { protect } from "../middleware/auth.js";
@@ -24,19 +25,12 @@ import { protect } from "../middleware/auth.js";
 const router = Router();
 
 router.get("/", listOrders);
-
 router.post("/", protect,createOrder);
-
 router.post("/:id/report-missing", reportMissingProducts);
-
 router.post("/:id/cancel-order",protect, cancelOrderByCustomer);
-
-
 router.get("/user/:userId", getOrdersByUser);
-
-
 router.get("/user/:userId/order/:orderId", getOrderByUserAndId);
-
+router.post("/notify-branch", notifyBranch);
 
 //delivery boy
 router.put("/:id/assign", assignDelivery);
