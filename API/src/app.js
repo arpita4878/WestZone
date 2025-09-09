@@ -15,10 +15,11 @@ import categoryRouter from "./routes/category.router.js"
 import promotionRouter from "./routes/promotionRoutes.js";
 import newOfferZoneRoutes from "./routes/newOfferZone.routes.js";
 import feedbackRoutes from "./routes/feedback.routes.js";
-import productRouter from "./routes/product.router.js"
-import inventoryRouter from "./routes/inventory.router.js"
-import orderRouter from "./routes/order.router.js"
-import branchRouter from "./routes/branch.router.js"
+import serviceFeedbackRoutes from "./routes/serviceFeedback.routes.js";
+import productFeedbackRoutes from "./routes/productFeedback.routes.js";
+import deliveryStaffRoutes from "./routes/deliveryStaff.routes.js";
+import pushNotificationRoutes from "./routes/pushNotification.routes.js";
+import pdfBannerRoutes from "./routes/pdfBanner.routes.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -30,17 +31,16 @@ app.use(cookieParser());
 
 app.use("/api/users", userRouter);
 app.use("/api/brand",brandRouter);
-app.use("/api/inventory",inventoryRouter)
-app.use("/api/orders",orderRouter)
-app.use("/api/products",productRouter)
-app.use('/api/promotions',promotionRouter);
 app.use("/api/category",categoryRouter)
-app.use("/api/branches",branchRouter)
+
+app.use('/api/promotions',promotionRouter);
 app.use("/api/new-offer-zone", newOfferZoneRoutes);
 app.use("/api/feedback", feedbackRoutes);
-
-
-
+app.use("/api/service-feedbacks", serviceFeedbackRoutes);
+app.use("/api/product-feedbacks", productFeedbackRoutes);
+app.use("/api/delivery-staff", deliveryStaffRoutes);
+app.use("/api/push-notifications", pushNotificationRoutes);
+app.use("/api/pdf-banners", pdfBannerRoutes);
 
 connectDB().then(() => {
   app.listen(port, '0.0.0.0',() => {
