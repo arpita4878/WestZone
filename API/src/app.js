@@ -18,6 +18,7 @@ import newOfferZoneRoutes from "./routes/newOfferZone.routes.js";
 import feedbackRoutes from "./routes/feedback.routes.js";
 import serviceFeedbackRoutes from "./routes/serviceFeedback.routes.js";
 import productFeedbackRoutes from "./routes/productFeedback.routes.js";
+import deliveryStaffRoutes from "./routes/deliveryStaff.routes.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -36,7 +37,7 @@ app.use("/api/new-offer-zone", newOfferZoneRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/service-feedbacks", serviceFeedbackRoutes);
 app.use("/api/product-feedbacks", productFeedbackRoutes);
-
+app.use("/api/delivery-staff", deliveryStaffRoutes);
 
 
 

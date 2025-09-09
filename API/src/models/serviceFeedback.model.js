@@ -12,7 +12,7 @@ const serviceFeedbackSchema = new mongoose.Schema({
   deliveryRating: { type: Number, min: 1, max: 5, required: true },
   date: { type: Date, default: Date.now },
   orderId: { type: String, required: true },
-  viewFile: { type: String }, // file ka path/url store hoga (image, pdf, etc.)
+//   viewFile: { type: String }, // file ka path/url store hoga (image, pdf, etc.)
   status: { type: String, enum: ["Pending", "In Progress", "Resolved"], default: "Pending" }
 }, { timestamps: true });
 
