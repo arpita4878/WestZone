@@ -12,12 +12,13 @@ import { connectDB } from "./config/db.js"
 import userRouter from "./routes/user.router.js";
 import brandRouter from './routes/brand.router.js';
 import categoryRouter from "./routes/category.router.js"
-// import brandRouter from './routes/brand.router.js'
 import promotionRouter from "./routes/promotionRoutes.js";
 import newOfferZoneRoutes from "./routes/newOfferZone.routes.js";
 import feedbackRoutes from "./routes/feedback.routes.js";
-
-
+import productRouter from "./routes/product.router.js"
+import inventoryRouter from "./routes/inventory.router.js"
+import orderRouter from "./routes/order.router.js"
+import branchRouter from "./routes/branch.router.js"
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -29,9 +30,12 @@ app.use(cookieParser());
 
 app.use("/api/users", userRouter);
 app.use("/api/brand",brandRouter);
+app.use("/api/inventory",inventoryRouter)
+app.use("/api/orders",orderRouter)
+app.use("/api/products",productRouter)
 app.use('/api/promotions',promotionRouter);
 app.use("/api/category",categoryRouter)
-
+app.use("/api/branches",branchRouter)
 app.use("/api/new-offer-zone", newOfferZoneRoutes);
 app.use("/api/feedback", feedbackRoutes);
 

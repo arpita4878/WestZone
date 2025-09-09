@@ -2,25 +2,27 @@ import jwt from "jsonwebtoken";
 import Users from "../models/user.model.js"; 
 
 // Middleware: Check if user is authenticated
-export const protect = async (req, res, next) => {
+
+export async function protect(req, res, next) {
   try {
-    const token = req.headers.authorization?.split(" ")[1]; 
+    const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
-      return res.status(401).json({ status: false, message: "Not authorized, no token" });
+      return res.status(401).json({ message: "No token provided" });
     }
 
     const decoded = jwt.verify(token, process.env.ACCESS_SECRET);
-    req.user = await Users.findById(decoded.id).select("-password");
+    const user = await Users.findById(decoded.id);
 
-    if (!req.user) {
-      return res.status(401).json({ status: false, message: "User not found" });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid token" });
     }
 
+    req.user = user;
     next();
   } catch (err) {
-    res.status(401).json({ status: false, message: "Token failed" });
+    res.status(401).json({ message: "Unauthorized" ,err});
   }
-};
+}
 
 // Middleware: Restrict access by role
 export const restrictTo = (...roles) => {
