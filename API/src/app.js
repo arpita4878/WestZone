@@ -16,7 +16,7 @@ import categoryRouter from "./routes/category.router.js"
 import promotionRouter from "./routes/promotionRoutes.js";
 import newOfferZoneRoutes from "./routes/newOfferZone.routes.js";
 import feedbackRoutes from "./routes/feedback.routes.js";
-
+import serviceFeedbackRoutes from "./routes/serviceFeedback.routes.js";
 
 
 const app = express();
@@ -29,11 +29,12 @@ app.use(cookieParser());
 
 app.use("/api/users", userRouter);
 app.use("/api/brand",brandRouter);
-app.use('/api/promotions',promotionRouter);
 app.use("/api/category",categoryRouter)
 
+app.use('/api/promotions',promotionRouter);
 app.use("/api/new-offer-zone", newOfferZoneRoutes);
 app.use("/api/feedback", feedbackRoutes);
+app.use("/api/service-feedbacks", serviceFeedbackRoutes);
 
 
 
