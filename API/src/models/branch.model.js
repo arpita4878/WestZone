@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 const zoneSchema = new mongoose.Schema({
   name: { type: String, required: true }, 
   polygon: {
@@ -23,6 +23,34 @@ const zoneSchema = new mongoose.Schema({
 
 const storeSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  email:{type:String, required:true},
+  phone: {  
+  type: String, // use String instead of Number (to keep +, leading 0, etc.)
+    required: [true, "Phone number is required"],
+    validate: {
+      validator: function (v) {
+        if (!v) return false;
+        const phoneNumber = parsePhoneNumberFromString(v);
+        return phoneNumber ? phoneNumber.isValid() : false;
+      },
+      message: (props) => `${props.value} is not a valid phone number!`
+    }
+  },
+
+  whatsapp_Number: {
+    type: String,
+    required: [true, "WhatsApp number is required"],
+    validate: {
+      validator: function (v) {
+        if (!v) return false;
+        const phoneNumber = parsePhoneNumberFromString(v);
+        return phoneNumber ? phoneNumber.isValid() : false;
+      },
+      message: (props) => `${props.value} is not a valid WhatsApp number!`
+    }
+  },
+
+
   isOpen: { type: Boolean, default: true },
   openTime: { type: String },  
   closeTime: { type: String }, 
@@ -48,3 +76,8 @@ branchSchema.index({ location: "2dsphere" });
 branchSchema.index({ "stores.zones.polygon": "2dsphere" });
 
 export default mongoose.model("Branch", branchSchema);
+
+
+  //phone number like this 
+  //  phone: "+14155552671",       // USA valid
+ // whatsapp_Number: "+919876543210"

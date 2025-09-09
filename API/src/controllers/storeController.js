@@ -4,7 +4,7 @@ import Branch from "../models/branch.model.js";
 // Add a new store to a branch
 export const addStore = async (req, res) => {
   try {
-    const { name, isOpen, openTime, closeTime } = req.body;
+    const { name, isOpen, openTime, closeTime , email , phone , whatsapp_Number } = req.body;
     if (!name) return res.status(400).json({ message: "Store name is required" });
 
     const branch = await Branch.findById(req.params.branchId);

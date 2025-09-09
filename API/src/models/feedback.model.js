@@ -6,8 +6,8 @@ const feedbackSchema = new mongoose.Schema({
     email: { type: String, required: true },
     phone: { type: String, required: true },
     suggestion: { type: String, required: true },
-    state: { type: String, required: true },
-    date: { type: Date, default: Date.now }
+    status: { type: String, enum: ["pending", "accepted", "dispatched", "delivered", "cancelled"], default: "pending" },
+  date: { type: Date, default: Date.now }
 });
 
 export default mongoose.model("Feedback", feedbackSchema);
