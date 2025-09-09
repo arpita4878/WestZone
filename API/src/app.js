@@ -19,6 +19,7 @@ import feedbackRoutes from "./routes/feedback.routes.js";
 import serviceFeedbackRoutes from "./routes/serviceFeedback.routes.js";
 import productFeedbackRoutes from "./routes/productFeedback.routes.js";
 import deliveryStaffRoutes from "./routes/deliveryStaff.routes.js";
+import pushNotificationRoutes from "./routes/pushNotification.routes.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -38,7 +39,7 @@ app.use("/api/feedback", feedbackRoutes);
 app.use("/api/service-feedbacks", serviceFeedbackRoutes);
 app.use("/api/product-feedbacks", productFeedbackRoutes);
 app.use("/api/delivery-staff", deliveryStaffRoutes);
-
+app.use("/api/push-notifications", pushNotificationRoutes);
 
 
 connectDB().then(() => {
