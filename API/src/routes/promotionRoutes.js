@@ -1,9 +1,18 @@
 import express from "express";
-import { createPromotion, getPromotions } from "../controllers/promotionController.js";
+import {
+  createPromotion,
+  getAllPromotions,
+  getPromotionById,
+  updatePromotion,
+  deletePromotion
+} from "../controllers/promotionController.js";
 
 const router = express.Router();
 
-router.post("/", createPromotion);
-router.get("/", getPromotions);
+router.post("/", createPromotion);            // Create promotion
+router.get("/", getAllPromotions);           // Get all promotions
+router.get("/:id", getPromotionById);        // Get promotion by ID
+router.put("/:id", updatePromotion);         // Update promotion
+router.delete("/:id", deletePromotion);      // Delete promotion
 
 export default router;
