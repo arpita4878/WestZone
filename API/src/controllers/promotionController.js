@@ -1,5 +1,9 @@
 import Promotion from "../models/Promotion.js";
+<<<<<<< HEAD
 import Product from "../models/product.model.js";
+=======
+import Product from "../models/product.js";
+>>>>>>> promotion
 
 // CREATE promotion
 export const createPromotion = async (req, res) => {
