@@ -1,15 +1,30 @@
 import mongoose from "mongoose";
 
-const promotionSchema = new mongoose.Schema(
-  {
-    title: { type: String, required: true },       // heading
-    description: { type: String },                 // detail
-    start: { type: Date, required: true },         // start date
-    end: { type: Date, required: true },           // end date
-    priority: { type: Number, default: 0 }         // higher number = higher priority
-  },
-  { timestamps: true }
-);
+const promotionSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  subTitle: { type: String },
+  description: { type: String },
+  subDescription: { type: String },
 
-const Promotion = mongoose.model("Promotion", promotionSchema);
-export default Promotion;
+  promotionType: { 
+    type: String, 
+    enum: ["product", "subcategory", "giftItem", "banner", "samePrice"], 
+    required: true 
+  },
+
+  discountValue: { type: Number },
+
+  products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+  subCategories: [{ type: String }],
+  branches: [{ type: String }],
+
+  giftItem: { type: String },
+  samePrice: { type: Number },
+  banner: { type: String },
+
+  startDate: { type: Date },
+  endDate: { type: Date },
+  status: { type: String, enum: ["active", "inactive"], default: "active" }
+}, { timestamps: true });
+
+export default mongoose.model("Promotion", promotionSchema);

@@ -1,18 +1,19 @@
 import express from "express";
 import {
   addServiceFeedback,
-  getServiceFeedbacks,
-  getServiceFeedbackById,
-  updateServiceFeedback,
-  deleteServiceFeedback
+  getAllServiceFeedbacks,
+  getServiceFeedbackById
 } from "../controllers/serviceFeedback.controller.js";
 
 const router = express.Router();
 
-router.post("/", addServiceFeedback);       // Add new feedback
-router.get("/", getServiceFeedbacks);       // Get all feedbacks
-router.get("/:id", getServiceFeedbackById); // Get single feedback
-router.put("/:id", updateServiceFeedback);  // Update feedback
-router.delete("/:id", deleteServiceFeedback); // Delete feedback
+// Add new service feedback
+router.post("/add", addServiceFeedback);
+
+// Get all service feedbacks
+router.get("/", getAllServiceFeedbacks);
+
+// Get single service feedback by ID
+router.get("/:id", getServiceFeedbackById);
 
 export default router;
