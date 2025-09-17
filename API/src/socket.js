@@ -10,13 +10,11 @@ export function initSocket(httpServer) {
     },
   });
 
-  // expose globally if you want to emit from controllers
   global._io = io;
 
   io.on("connection", (socket) => {
     console.log(" New client connected:", socket.id);
 
-    // Extract query params
     const { branchId, deliveryBoyId } = socket.handshake.query;
 
     if (branchId) {
@@ -61,7 +59,6 @@ export function getIO() {
   return io;
 }
 
-// Optional helper: emit event to a branch
 export function emitToBranch(branchId, event, payload) {
   if (!io) throw new Error("Socket.io not initialized");
   io.to(String(branchId)).emit(event, payload);

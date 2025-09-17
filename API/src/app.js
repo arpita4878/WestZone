@@ -6,7 +6,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { createServer } from "http";
 import { connectDB } from "./config/db.js";
-
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "../Swagger/swaggerConfig.js";  
 
 import userRouter from "./routes/user.router.js";
 import brandRouter from "./routes/brand.router.js";
@@ -62,6 +63,11 @@ app.use("/api/pdf-banners", pdfBannerRoutes);
 
 // Initialize Socket.IO
 initSocket(httpServer);
+
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec,{
+  
+}))
 
 
 connectDB().then(() => {
