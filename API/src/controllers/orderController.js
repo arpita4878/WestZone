@@ -2,7 +2,7 @@ import Order from "../models/order.model.js";
 import User from "../models/user.model.js";
 import Inventory from "../models/inventory.model.js";
 import Branch from "../models/branch.model.js";
-import { getIO } from "../socket.js";
+import { getIO, emitToBranch } from "../socket.js";
 
 
 export const notifyBranch = (req, res) => {
@@ -143,14 +143,16 @@ export async function createOrder(req, res, next) {
       $set: { lastOrderDate: new Date() }
     });
 
+const room = String(order.branch);
 
-   const room = String(order.branch); 
-global._io.to(room).emit("newOrder", {
+// Use helper
+emitToBranch(room, "newOrder", {
   orderId: order._id,
   status: order.status,
   items: order.items,
   total: order.total,
 });
+
 
     res.status(201).json({ order });
 
@@ -359,7 +361,6 @@ export async function assignDelivery(req, res, next) {
       delivery_boy: order.delivery_boy,
     });
 
-
     global._io.to(`delivery_${user._id}`).emit("assignedOrder", {
       orderId: order._id,
       customer: order.customer,
@@ -437,6 +438,10 @@ export async function confirmDelivery(req, res, next) {
       throw e;
     }
 
+      global._io.to(String(order.branch)).emit("Delivered Order", {
+      orderId: order._id,
+    });
+
     res.json({ message: "Delivery confirmed", order });
   } catch (err) {
     next(err);
@@ -445,8 +450,6 @@ export async function confirmDelivery(req, res, next) {
 
 
 //admin
-
-
 export async function listNewOrders(req, res, next) {
   try {
     const { branch, limit } = req.query;

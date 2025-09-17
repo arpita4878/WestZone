@@ -36,11 +36,9 @@ export function initSocket(httpServer) {
     
     socket.on("joinBranch", (branchId) => {
       const room = String(branchId);
-      socket.join(room ,()=>{
- console.log(` Branch ${room} joined via socket ${socket.id}`);
+      socket.join(room);
+      console.log(` Branch ${room} joined via socket ${socket.id}`);
       socket.emit("joinedBranch", { room });
-      });
-     
     });
 
     socket.on("joinDeliveryBoy", (deliveryBoyId) => {
