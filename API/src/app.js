@@ -65,7 +65,7 @@ initSocket(httpServer);
 
 
 connectDB().then(() => {
-  httpServer.listen(port, "0.0.0.0", () => {
-    console.log(`Server running on http://192.168.0.126:${port}`);
+  httpServer.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
   });
 });

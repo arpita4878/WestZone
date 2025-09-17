@@ -144,14 +144,13 @@ export async function createOrder(req, res, next) {
     });
 
 
-    if (global._io) {
-      global._io.to(String(branch)).emit("newOrder", {
-        orderId: order._id,
-        status: order.status,
-        items: order.items,
-        total: order.total,
-      });
-    }
+   const room = String(order.branch); 
+global._io.to(room).emit("newOrder", {
+  orderId: order._id,
+  status: order.status,
+  items: order.items,
+  total: order.total,
+});
 
     res.status(201).json({ order });
 

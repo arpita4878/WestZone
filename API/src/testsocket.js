@@ -5,7 +5,7 @@ const DELIVERY_BOYS = ["d1", "d2"];
 
 const socket = io("http://localhost:5000", {
   query: {
-    branchId: BRANCHES.join(","),      // optional, for auto-join
+    branchId: BRANCHES.join(","),      
     deliveryBoyId: DELIVERY_BOYS.join(",")
   }
 });
@@ -33,3 +33,5 @@ socket.on("newOrder", (data) => {
 socket.on("deliveryAssigned", (data) => {
   console.log("Delivery assigned:", data);
 });
+
+
