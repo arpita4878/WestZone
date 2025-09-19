@@ -6,7 +6,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { createServer } from "http";
 import { connectDB } from "./config/db.js";
-
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "../Swagger/swaggerConfig.js";  
 
 import userRouter from "./routes/user.router.js";
 import brandRouter from "./routes/brand.router.js";
@@ -39,6 +40,7 @@ const port = process.env.PORT || 5000;
 const httpServer = createServer(app);
 
 // Middleware
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -70,6 +72,11 @@ swaggerDocs(app);
 
 // Initialize Socket.IO
 initSocket(httpServer);
+
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec,{
+  
+}))
 
 
 connectDB().then(() => {

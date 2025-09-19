@@ -284,7 +284,7 @@ export async function trackOrder(req, res, next) {
     }
 
     res.json({
-      orderId: order._id,
+      orderId: order._id, 
       status: order.status,
       delivery_boy: order.delivery_boy,
       assignedAt: order.assignedAt,
@@ -395,7 +395,6 @@ export async function assignDelivery(req, res, next) {
       delivery_boy: order.delivery_boy,
     });
 
-
     global._io.to(`delivery_${user._id}`).emit("assignedOrder", {
       orderId: order._id,
       customer: order.customer,
@@ -473,6 +472,10 @@ export async function confirmDelivery(req, res, next) {
       throw e;
     }
 
+      global._io.to(String(order.branch)).emit("Delivered Order", {
+      orderId: order._id,
+    });
+
     res.json({ message: "Delivery confirmed", order });
   } catch (err) {
     next(err);
@@ -481,8 +484,6 @@ export async function confirmDelivery(req, res, next) {
 
 
 //admin
-
-
 export async function listNewOrders(req, res, next) {
   try {
     const { branch, limit } = req.query;

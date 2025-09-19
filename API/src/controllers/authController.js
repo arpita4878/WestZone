@@ -180,6 +180,7 @@ export const login = async (req, res) => {
       code: 200,
       data: {
         accessToken,
+        refreshToken,
         user: { _id: user._id, email: user.email, role: user.role },
       },
     });

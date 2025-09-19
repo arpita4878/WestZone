@@ -1,11 +1,11 @@
 import { io } from "socket.io-client";
 
-const BRANCHES = ["123", "456"];
-const DELIVERY_BOYS = ["d1", "d2"];
+const BRANCHES = ["68bff3a78c49e3c3b4086be1"];
+const DELIVERY_BOYS = ["4", "5" , "6"];
 
 const socket = io("http://localhost:5000", {
   query: {
-    branchId: BRANCHES.join(","),      // optional, for auto-join
+    branchId: BRANCHES.join(","),      
     deliveryBoyId: DELIVERY_BOYS.join(",")
   }
 });
@@ -32,4 +32,8 @@ socket.on("newOrder", (data) => {
 // Listen to delivery assignment notifications
 socket.on("deliveryAssigned", (data) => {
   console.log("Delivery assigned:", data);
+});
+
+socket.on("orderStatusUpdate", (data) => {
+  console.log("Order Status Updated:", data);
 });
