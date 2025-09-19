@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://192.168.1.19:5000", // 👈 backend ka IP aur port
+        url: "http://192.168.1.19:5000", // backend ka IP aur port
       },
     ],
     components: {
