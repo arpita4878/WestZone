@@ -1,0 +1,330 @@
+                                                             
+                                                       #User Registration
+                                      
+POST-----http://localhost:5000/api/users/register
+{
+  "designation": "Chief Admin",
+  "name": "Aarti",
+  "surname": "Verma",
+  "email": "aarti.admin@example.com",
+  "phone": "+919812345678",
+  "birthday": "1985-08-20",
+  "nationality": "Indian",
+  "role": "super_admin",
+  "branch": null,
+  "password": null,
+  "confirmPassword": null
+}
+
+
+
+(for order online_customer registration)
+{
+  "designation": "Mr.",
+  "name": "Rahul",
+  "surname": "Sharma",
+  "email": "rahul.sharma@example.com",
+  "phone": "+919876543210",
+  "password": "securePass123",
+  "confirmPassword": "securePass123",
+  "role": "online_customer",
+  "branch": "68ca63a545bd138335ce6d77",
+  "birthday": "1995-07-15T00:00:00.000Z",
+  "registeredDate": "2025-09-17T11:00:00.000Z",
+  "lastOrderDate": null,
+  "points": 0,
+  "orderCount": 0,
+  "totalOrderAmount": 0,
+  "nationality": "Indian",
+  "resetPasswordToken": null,
+  "resetPasswordExpire": null
+}
+
+
+
+(For super_admin password is password is required in the login #accessToken)
+POST-----http://localhost:5000/api/users/login
+{
+  "email": "aarti.admin@example.com",
+  "password": "12345"
+}
+
+
+
+(for online_customer login)
+{
+    "email": "rahul.sharma@example.com",
+    "password": "securePass123"
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+                                                               #Branch
+                            
+ POST-----http://localhost:5000/api/branches
+ {
+  "branchName": "Central Branch",
+  "code": "CB001",
+  "address": "123 Main Street, Mumbai, India",
+  "location": {
+    "type": "Point",
+    "coordinates": [72.8777, 19.0760] 
+  },
+  "isActive": true,
+  "stores": [
+    {
+      "name": "Central Store 1",
+      "email": "store1@centralbranch.com",
+      "phone": "+919876543210",
+      "whatsapp_Number": "+919876543210",
+      "isOpen": true,
+      "openTime": "09:00",
+      "closeTime": "21:00",
+      "zones": [
+        {
+          "name": "Zone 1",
+          "polygon": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [72.8770, 19.0750],
+                [72.8790, 19.0750],
+                [72.8790, 19.0770],
+                [72.8770, 19.0770],
+                [72.8770, 19.0750]
+              ]
+            ]
+          },
+          "freeDeliveryAbove": 500,
+          "minOrderValue": 100,
+          "deliveryTime": "30-45 mins",
+          "deliveryCharge": 50,
+          "deliveryChargeAfterKm": 10,
+          "paymentMethods": ["cash", "card", "upi"]
+        },
+        {
+          "name": "Zone 2",
+          "polygon": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [72.8800, 19.0780],
+                [72.8820, 19.0780],
+                [72.8820, 19.0800],
+                [72.8800, 19.0800],
+                [72.8800, 19.0780]
+              ]
+            ]
+          },
+          "freeDeliveryAbove": 700,
+          "minOrderValue": 150,
+          "deliveryTime": "45-60 mins",
+          "deliveryCharge": 70,
+          "deliveryChargeAfterKm": 15,
+          "paymentMethods": ["cash", "upi"]
+        }
+      ]
+    },
+    {
+      "name": "Central Store 2",
+      "email": "store2@centralbranch.com",
+      "phone": "+919812345678",
+      "whatsapp_Number": "+919812345678",
+      "isOpen": false,
+      "openTime": "10:00",
+      "closeTime": "20:00",
+      "zones": []
+    }
+  ]
+}
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+                                                             #Brand
+                    
+(Authorization required super_admin)
+POST-----http://localhost:5000/api/brand
+{
+  "_id": 1,
+  "brandName": "Samsung",
+  "isInList": true,
+  "image": "https://example.com/images/samsung.png"
+}
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+                                                           #Category
+                                       
+POST-----http://localhost:5000/api/category
+{
+  "categoryName": "Smartphones",
+  "isSubCategory": false,
+  "subCategories": [],
+  "isInList": true,
+  "categoryImage": "https://example.com/images/smartphones.png"
+}
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+                                                            #Product
+                                        
+POST-----http://localhost:5000/api/products
+{
+  "productName": "Samsung Galaxy S24 Ultra",
+  "barcode": "SG-S24U-001",
+  "brandId": 1,
+  "categoryId": "68ca8647e878e3f49364e0b8",
+  "description": "The Samsung Galaxy S24 Ultra features a 6.8-inch Dynamic AMOLED 2X display, Snapdragon 8 Gen 3 processor, up to 12GB RAM, and 200MP camera for flagship performance and photography.",
+  "basePrice": 124999,
+  "Quantity": "180gm",
+  "attributes": {
+    "color": "Phantom Black",
+    "storage": "256GB",
+    "ram": "12GB",
+    "battery": "5000mAh"
+  },
+  "display": true,
+  "stock": 15,
+  "keywords": "phone,mobile",
+  "storeId": [1]
+}
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+                                                            #Inventory
+                                        
+POST-----http://localhost:5000/api/inventory/mine
+{
+    "productId": "68ca8807e9bd1c18da6017c7",
+    "branchId": "68ca63a545bd138335ce6d77",
+    "price": 124999,
+    "quantity": 50,
+    "lowStockThreshold": 5
+}
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+                                                               #Promotions
+                                        
+POST-----http://localhost:5000/api/promotions
+{
+  "title": "Flat 10% Off",
+  "description": "Get 10% discount on all orders",
+  "promotionType": "percentage",
+  "discountValue": 10,
+  "couponCode": null,
+  "applyOn": "allBranches",
+  "branches": [],
+  "products": [],
+  "categories": [],
+  "startDate": "2025-09-15T00:00:00.000Z",
+  "endDate": "2025-09-30T23:59:59.000Z",
+  "status": "active"
+}
+
+
+
+PUT-----http://localhost:5000/api/promotions/68cbfd3b561261f763a369f5
+
+
+delete-----http://localhost:5000/api/promotions/68cbfd3b561261f763a369f5
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+                                                              #Order
+                                                              
+(Authorization required for online_customer)                                  
+POST-----http://localhost:5000/api/orders
+{
+  "branch": "68cbc9ba14147845b1ed4794",
+  "items": [
+    {
+      "productId": "68ca8807e9bd1c18da6017c7",
+      "productName": "Samsung Galaxy S24 Ultra",
+      "productCode": "SG-S24U-001",
+      "qty": 1,
+      "price": 124999
+    }
+  ],
+  "appliedPromotions": [
+    {
+      "promoId": "68caa1a750a7814a09f862c4",
+      "title": "Flat 10% Off",
+      "discountValue": 10
+    }
+  ],
+  "customer": {
+    "name": "Rahul Sharma",
+    "phone": 9876543210,
+    "address": "123, MG Road, Delhi",
+    "customerId": 3,
+    "location": {
+      "type": "Point",
+      "coordinates": [77.209, 28.6139]
+    }
+  },
+  "payment": {
+    "method": "online",
+    "paid": true
+  },
+  "delivery_boy": {
+    "id": 101,
+    "name": "Amit Kumar",
+    "email": "amit.kumar@delivery.com"
+  }
+}
+
+                     
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
+
+ 
