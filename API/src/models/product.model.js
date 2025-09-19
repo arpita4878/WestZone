@@ -5,11 +5,11 @@ const productSchema = new mongoose.Schema(
     productName: { type: String, required: true, index: true },
     barcode: { type: String, required: true, unique: true, index: true },
     description: { type: String },
-    categoryId: { type: Number, required:true},
+    categoryId: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
     attributes: { type: Map, of: String }, // e.g. color:size
     basePrice: { type: Number, default: 0 },
     Quantity: { type: String, default: 0 },
-    images: [{ type: String }], // Array of image 
+    // images: [{ type: String }], // Array of image 
     keywords: [{ type: String, index: true }], 
     brandId: { type: Number, required: true },
     storeId:[{type:Number}],

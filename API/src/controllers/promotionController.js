@@ -6,7 +6,10 @@ export const createPromotion = async (req, res) => {
   try {
     const promotion = new Promotion(req.body);
     const savedPromo = await promotion.save();
+    console.log(savedPromo._id);  // ye console me ObjectId dikhega
+    console.log(savedPromo)
     res.status(201).json(savedPromo);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

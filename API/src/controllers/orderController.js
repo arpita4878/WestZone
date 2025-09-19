@@ -3,6 +3,8 @@ import User from "../models/user.model.js";
 import Inventory from "../models/inventory.model.js";
 import Branch from "../models/branch.model.js";
 import { getIO } from "../socket.js";
+import { isPromotionApplicable } from "../service/promotion.service.js"; 
+import Promotion from "../models/Promotion.js"; 
 
 
 export const notifyBranch = (req, res) => {
@@ -60,34 +62,33 @@ function pointInPolygon(point, polygon) {
 
 
 
-
+//create order with promotion logic
 export async function createOrder(req, res, next) {
   try {
-    const { branch, items, customer: customerInput, payment } = req.body;
+    const { branch, items, customer: customerInput, payment, coupon } = req.body;
 
-   
     if (!req.user || !req.user._id) {
       return res.status(401).json({ message: "Unauthorized: login required" });
     }
 
+    // ✅ Customer handle
     let customerDoc = req.user;
     if (customerInput?.email) {
       customerDoc = await User.findOne({ email: customerInput.email }) || customerDoc;
     }
-
     if (!customerDoc) return res.status(404).json({ message: "Customer not found" });
 
-   
+    // ✅ Location check
     const customerLocation = customerInput?.location || customerDoc.location;
     if (!customerLocation?.coordinates) {
       return res.status(400).json({ message: "customer.location is required (Point with [lng,lat])" });
     }
 
-  
+    // ✅ Branch check
     const branchDoc = await Branch.findById(branch);
     if (!branchDoc) return res.status(404).json({ message: "Branch not found" });
 
-    
+    // ✅ Items process
     let itemsTotal = 0;
     const normalized = [];
 
@@ -110,15 +111,48 @@ export async function createOrder(req, res, next) {
       await inv.save();
     }
 
-   
-    const deliveryFee = 50; 
-    const total = itemsTotal + deliveryFee;
+    // ✅ Promotions apply karna
+    let discount = 0;
+    const appliedPromotions = [];
+    const appliedPromoIds = new Set();
 
-   
+    const promotions = await Promotion.find({ status: "active" });
+    
+    for (let promo of promotions) {
+      if (appliedPromoIds.has(String(promo._id))) continue; // skip duplicate
+    
+      let promoApplied = normalized.some(item =>
+        isPromotionApplicable(promo, branch, item.productId, item.categoryId, coupon)
+      );
+    
+      if (promoApplied) {
+        appliedPromoIds.add(String(promo._id));
+        if (promo.promotionType === "percentage") discount += itemsTotal * (promo.discountValue / 100);
+        appliedPromotions.push({
+          promoId: promo._id,
+          title: promo.title,
+          discountValue: promo.discountValue
+        });
+      }
+    }
+    
+
+    
+
+    // ✅ Total calculation
+    const deliveryFee = 50;
+    const total = itemsTotal - discount + deliveryFee;
+
+    // ✅ Order create
+    const subTotal = itemsTotal;
+
     const order = await Order.create({
       branch,
       items: normalized,
+      subTotal,
       total,
+      discount,
+      appliedPromotions, // ✅ add this line
       customerId: customerDoc._id,
       customer: {
         customerId: customerDoc._id,
@@ -130,31 +164,32 @@ export async function createOrder(req, res, next) {
       },
       payment,
       delivery: {
-        zoneId: null, 
+        zoneId: null,
         fee: deliveryFee,
         etaMinutes: 30
       },
       delivery_boy: { id: null, name: null, phone: null }
     });
-
     
+
+    // ✅ Customer update
     await User.findByIdAndUpdate(customerDoc._id, {
       $inc: { orderCount: 1, totalOrderAmount: total },
       $set: { lastOrderDate: new Date() }
     });
 
-
+    // ✅ Socket event
     if (global._io) {
       global._io.to(String(branch)).emit("newOrder", {
         orderId: order._id,
         status: order.status,
         items: order.items,
         total: order.total,
+        discount: order.discount
       });
     }
 
     res.status(201).json({ order });
-
   } catch (err) {
     next(err);
   }

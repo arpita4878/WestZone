@@ -25,6 +25,9 @@ import pushNotificationRoutes from "./routes/pushNotification.routes.js";
 import pdfBannerRoutes from "./routes/pdfBanner.routes.js";
 import reportsRouter from "./routes/report.router.js"
 
+//swagger import
+import swaggerDocs from "./config/swagger.js";
+
 
 // import socket server separately
 import { initSocket } from "./socket.js";
@@ -60,12 +63,17 @@ app.use("/api/delivery-staff", deliveryStaffRoutes);
 app.use("/api/push-notifications", pushNotificationRoutes);
 app.use("/api/pdf-banners", pdfBannerRoutes);
 
+// Swagger docs route
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+swaggerDocs(app);
+
+
 // Initialize Socket.IO
 initSocket(httpServer);
 
 
 connectDB().then(() => {
   httpServer.listen(port, "0.0.0.0", () => {
-    console.log(`Server running on http://192.168.0.126:${port}`);
+    console.log(`Server running on http://192.168.1.19:${port}`);
   });
 });

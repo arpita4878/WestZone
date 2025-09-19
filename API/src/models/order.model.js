@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema(
   {
     branch: { type: mongoose.Schema.Types.ObjectId, ref: "Branch", required: true },
+
     items: [
       {
         productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
@@ -12,7 +13,22 @@ const orderSchema = new mongoose.Schema(
         price: { type: Number, required: true }
       }
     ],
-    total: { type: Number, required: true },
+
+    // 💰 Order amounts
+    subTotal: { type: Number, required: true },   // before discount
+    discount: { type: Number, default: 0 },       // total discount applied
+    total: { type: Number, required: true },      // after discount + delivery fee
+
+    // 🎟️ Promotion tracking
+    appliedPromotions: [
+      {
+        // ⚠️ Backend automatically push karega yahan promotion
+        promoId: { type: mongoose.Schema.Types.ObjectId, ref: "Promotion" },
+        title: String,
+        discountValue: Number
+      }
+    ],
+
     status: {
       type: String,
       enum: [
@@ -36,16 +52,18 @@ const orderSchema = new mongoose.Schema(
       ],
       default: "new"
     },
+
     customer: {
       name: String,
       phone: Number,
       address: String,
-      customerId: { type:Number, required: true ,ref: "User" },
+      customerId: { type: Number, ref: "Users", required: true },
       location: {
         type: { type: String, enum: ["Point"], default: "Point" },
         coordinates: { type: [Number], default: [0, 0] } // [lng, lat]
       }
     },
+
     delivery: {
       zoneId: { type: mongoose.Schema.Types.ObjectId, ref: "DeliveryZone" },
       fee: { type: Number, default: 0 },
@@ -56,19 +74,22 @@ const orderSchema = new mongoose.Schema(
         polyline: String
       }
     },
+
     payment: {
       method: { type: String, enum: ["cod", "online"], default: "cod" },
       paid: { type: Boolean, default: false }
     },
+
     customerMissingProducts: [
       {
         productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
         quantity: Number,
         note: String,
-        reportedAt: { type: Date, default: Date.now },
-      },
+        reportedAt: { type: Date, default: Date.now }
+      }
     ],
-    cancelledBy: { type: Number, ref: "User" },
+
+    cancelledBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     cancelledAt: { type: Date },
     cancelReason: { type: String },
 
@@ -77,11 +98,12 @@ const orderSchema = new mongoose.Schema(
       name: { type: String },
       email: { type: String }
     },
+
     assignedAt: { type: Date },
     deliveredAt: { type: Date }
   },
-
   { timestamps: true }
 );
 
-export default mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
+export default Order;
