@@ -128,7 +128,25 @@ export const update = async (req, res) => {
 };
 
 
+// Fetch all delivery boys
+export const getDeliveryBoys = async (req, res) => {
+  try {
+    const deliveryBoys = await User.find({ role: "delivery_boy" })
+      .select("-password -resetPasswordToken -resetPasswordExpire"); 
 
+    if (!deliveryBoys.length) {
+      return res.status(404).json({ status: false, message: "No delivery boys found" });
+    }
+
+    res.status(200).json({
+      status: true,
+      count: deliveryBoys.length,
+      data: deliveryBoys,
+    });
+  } catch (err) {
+    res.status(500).json({ status: false, message: err.message });
+  }
+};
 
 // GET CUSTOMER DETAILS BY PHONE (used by staff at billing)
 export const getCustomerByPhone = async (req, res) => {
