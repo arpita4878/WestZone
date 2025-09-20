@@ -39,3 +39,8 @@ const newOfferZoneSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 export default mongoose.model("NewOfferZone", newOfferZoneSchema);
+
+
+
+
+

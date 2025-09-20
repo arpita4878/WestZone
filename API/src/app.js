@@ -19,11 +19,7 @@ import branchRouter from "./routes/branch.router.js";
 import promotionRouter from "./routes/promotionRoutes.js";
 import newOfferZoneRoutes from "./routes/newOfferZone.routes.js";
 import feedbackRoutes from "./routes/feedback.routes.js";
-import serviceFeedbackRoutes from "./routes/serviceFeedback.routes.js";
-import productFeedbackRoutes from "./routes/productFeedback.routes.js";
 import deliveryStaffRoutes from "./routes/deliveryStaff.routes.js";
-import pushNotificationRoutes from "./routes/pushNotification.routes.js";
-import pdfBannerRoutes from "./routes/pdfBanner.routes.js";
 import reportsRouter from "./routes/report.router.js"
 
 //swagger import
@@ -59,11 +55,8 @@ app.use("/api/reports",reportsRouter)
 app.use("/api/promotions", promotionRouter);
 app.use("/api/new-offer-zone", newOfferZoneRoutes);
 app.use("/api/feedback", feedbackRoutes);
-app.use("/api/service-feedbacks", serviceFeedbackRoutes);
-app.use("/api/product-feedbacks", productFeedbackRoutes);
 app.use("/api/delivery-staff", deliveryStaffRoutes);
-app.use("/api/push-notifications", pushNotificationRoutes);
-app.use("/api/pdf-banners", pdfBannerRoutes);
+
 
 // Swagger docs route
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-
+ 
 const orderSchema = new mongoose.Schema(
   {
     branch: { type: mongoose.Schema.Types.ObjectId, ref: "Branch", required: true },
-
+ 
     items: [
       {
         productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
@@ -13,22 +13,20 @@ const orderSchema = new mongoose.Schema(
         price: { type: Number, required: true }
       }
     ],
-
+ 
     // 💰 Order amounts
     subTotal: { type: Number, required: true },   // before discount
     discount: { type: Number, default: 0 },       // total discount applied
     total: { type: Number, required: true },      // after discount + delivery fee
-
-    // 🎟️ Promotion tracking
+ 
     appliedPromotions: [
       {
-        // ⚠️ Backend automatically push karega yahan promotion
         promoId: { type: mongoose.Schema.Types.ObjectId, ref: "Promotion" },
         title: String,
         discountValue: Number
       }
     ],
-
+ 
     status: {
       type: String,
       enum: [
@@ -50,9 +48,9 @@ const orderSchema = new mongoose.Schema(
         "pending_confirm",
         "new"
       ],
-      default: "new"
+      default: "delivered"
     },
-
+ 
     customer: {
       name: String,
       phone: Number,
@@ -63,7 +61,7 @@ const orderSchema = new mongoose.Schema(
         coordinates: { type: [Number], default: [0, 0] } // [lng, lat]
       }
     },
-
+ 
     delivery: {
       zoneId: { type: mongoose.Schema.Types.ObjectId, ref: "DeliveryZone" },
       fee: { type: Number, default: 0 },
@@ -74,12 +72,12 @@ const orderSchema = new mongoose.Schema(
         polyline: String
       }
     },
-
+ 
     payment: {
       method: { type: String, enum: ["cod", "online"], default: "cod" },
       paid: { type: Boolean, default: false }
     },
-
+ 
     customerMissingProducts: [
       {
         productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
@@ -88,22 +86,36 @@ const orderSchema = new mongoose.Schema(
         reportedAt: { type: Date, default: Date.now }
       }
     ],
-
+ 
     cancelledBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     cancelledAt: { type: Date },
     cancelReason: { type: String },
-
+ 
     delivery_boy: {
       id: { type: Number },
       name: { type: String },
       email: { type: String }
     },
-
+ 
     assignedAt: { type: Date },
-    deliveredAt: { type: Date }
+    deliveredAt: { type: Date },
+ 
+    feedback: {
+      reason: { type: String },
+      serviceRating: { type: Number, min: 1, max: 5 },  
+      qualityRating: { type: Number, min: 1, max: 5 },  
+      packagingRating: { type: Number, min: 1, max: 5 },
+      deliveryRating: { type: Number, min: 1, max: 5 },  
+      totalRating: { type: Number, min: 1, max: 5 },
+      productSuggestion: { type: String },
+      comment: { type: String },
+      submittedAt: { type: Date, default: Date.now }
+    }
+ 
   },
   { timestamps: true }
 );
-
+ 
 const Order = mongoose.model("Order", orderSchema);
 export default Order;
+ 

@@ -195,7 +195,61 @@ export async function createOrder(req, res, next) {
   }
 }
 
-
+//feedback submitted
+export async function submitFeedback(req, res, next) {
+  try {
+    const { id } = req.params;
+    const {
+      reason,
+      serviceRating,
+      qualityRating,
+      packagingRating,
+      deliveryRating,
+      comment,
+      productSuggestion
+    } = req.body;
+ 
+    const userId = req.user._id;
+ 
+    const ratings = [serviceRating, qualityRating, packagingRating, deliveryRating];
+    for (const r of ratings) {
+      if (r < 1 || r > 5) {
+        return res.status(400).json({ message: "All ratings must be between 1 and 5" });
+      }
+    }
+ 
+    const order = await Order.findById(id);
+    if (!order) return res.status(404).json({ message: "Order not found" });
+ 
+    if (order.customer.customerId.toString() !== userId.toString()) {
+      return res.status(403).json({ message: "You can only give feedback for your own orders" });
+    }
+ 
+    if (order.status !== "delivered") {
+      return res.status(400).json({ message: "Feedback can only be given after delivery" });
+    }
+ 
+    const totalRating = Math.round((serviceRating + qualityRating + packagingRating + deliveryRating) / 4);
+ 
+    order.feedback = {
+      reason: reason || "",
+      serviceRating,
+      qualityRating,
+      packagingRating,
+      deliveryRating,
+      totalRating,
+      comment,
+      productSuggestion: productSuggestion || "",
+      submittedAt: new Date()
+    };
+ 
+    await order.save();
+ 
+    res.json({ message: "Feedback submitted successfully", feedback: order.feedback });
+  } catch (err) {
+    next(err);
+  }
+}
 
 export async function listOrders(req, res, next) {
   try {
