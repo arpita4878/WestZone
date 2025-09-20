@@ -1,9 +1,6 @@
 import Feedback from "../models/feedback.model.js";
 import User from "../models/user.model.js"; 
 
-
-
-
 export const createSuggestion = async (req, res) => {
   try {
     const { email, suggestion } = req.body;
@@ -12,8 +9,7 @@ export const createSuggestion = async (req, res) => {
       return res.status(400).json({ message: "Email and suggestion are required" });
     }
 
-   
-    const user = await User.findOne({ email });
+   const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found with this email" });
     }
