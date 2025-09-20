@@ -10,7 +10,7 @@ export const addStore = async (req, res) => {
     const branch = await Branch.findById(req.params.branchId);
     if (!branch) return res.status(404).json({ message: "Branch not found" });
 
-    branch.stores.push({ name, isOpen, openTime, closeTime });
+    branch.stores.push({ name, isOpen, openTime, closeTime, email , phone , whatsapp_Number });
     await branch.save();
 
     res.status(201).json(branch.stores[branch.stores.length - 1]);

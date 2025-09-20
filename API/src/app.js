@@ -52,7 +52,18 @@ app.use("/api/delivery-staff", deliveryStaffRoutes);
 
 
 // Swagger docs
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs",   swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customCss: '.swagger-ui .topbar .download-url-wrapper { display: none; }',
+    explorer: true,
+    swaggerOptions: {
+      docExpansion: "none",
+      deepLinking: true,
+    },
+    customCss: ".swagger-ui .topbar { background-color: #1e293b }",
+    customSiteTitle: "WestZone API Docs",
+  })
+)
 
 // Initialize Socket.IO
 initSocket(httpServer);

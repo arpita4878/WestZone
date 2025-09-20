@@ -249,7 +249,7 @@
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: Login failed: server error
+ *                   example: Login failed
  *                 code:
  *                   type: integer
  *                   example: 500
