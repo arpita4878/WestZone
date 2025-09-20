@@ -27,7 +27,7 @@ import reportsRouter from "./routes/report.router.js";
 import { initSocket } from "./socket.js";
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 const httpServer = createServer(app);
 
 // Middleware
