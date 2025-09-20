@@ -223,6 +223,75 @@ POST-----http://localhost:5000/api/inventory/mine
 }
 
 
+get --{{baseURL}}/api/branches/68bff3a78c49e3c3b4086be1
+
+respone
+{
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            77.5946,
+            12.9716
+        ]
+    },
+    "_id": "68bff3a78c49e3c3b4086be1",
+    "branchName": "Downtown Branch",
+    "code": "B001",
+    "address": "Main Street",
+    "stores": [
+        {
+            "name": "Store A",
+            "isOpen": true,
+            "openTime": "09:00",
+            "closeTime": "21:00",
+            "zones": [
+                {
+                    "polygon": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [
+                                    77.5946,
+                                    12.9716
+                                ],
+                                [
+                                    77.595,
+                                    12.972
+                                ],
+                                [
+                                    77.596,
+                                    12.971
+                                ],
+                                [
+                                    77.5946,
+                                    12.9716
+                                ]
+                            ]
+                        ]
+                    },
+                    "name": "Zone 1",
+                    "freeDeliveryAbove": 500,
+                    "minOrderValue": 100,
+                    "deliveryTime": "30-45 mins",
+                    "deliveryCharge": 20,
+                    "deliveryChargeAfterKm": 10,
+                    "paymentMethods": [
+                        "card",
+                        "cash",
+                        "upi"
+                    ],
+                    "_id": "68bff3a78c49e3c3b4086be3"
+                }
+            ],
+            "_id": "68bff3a78c49e3c3b4086be2"
+        }
+    ],
+    "isActive": true,
+    "createdAt": "2025-09-09T09:30:15.944Z",
+    "updatedAt": "2025-09-09T09:30:15.944Z",
+    "__v": 0
+}
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -304,7 +373,6 @@ POST-----http://localhost:5000/api/orders
                      
 
 ------------------------------------------------------------------------------------------------------------------------------------------
-
 
 
 

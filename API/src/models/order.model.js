@@ -19,10 +19,8 @@ const orderSchema = new mongoose.Schema(
     discount: { type: Number, default: 0 },       // total discount applied
     total: { type: Number, required: true },      // after discount + delivery fee
 
-    // 🎟️ Promotion tracking
     appliedPromotions: [
       {
-        // ⚠️ Backend automatically push karega yahan promotion
         promoId: { type: mongoose.Schema.Types.ObjectId, ref: "Promotion" },
         title: String,
         discountValue: Number

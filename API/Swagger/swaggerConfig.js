@@ -2,32 +2,22 @@ import swaggerJsdoc from "swagger-jsdoc";
 
 const options = {
   definition: {
-    openapi: "3.0.0",
+    openapi: "3.0.3",
     info: {
-      title: "WestZone API",
+      title: "My API",
       version: "1.0.0",
-      description: "API documentation for the WestZone backend",
+      description: "API Documentation",
     },
     servers: [
       {
         url: "http://localhost:5000",
+        description: "Local server",
       },
-    ],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
-        },
-      },
-    },
-  
-    security: [
-      { bearerAuth: [] }
     ],
   },
-  apis: ["./src/routes/*.js"], 
+ apis: [
+    "./Swagger/*Swagger.js" 
+  ],
 };
 
 const swaggerSpec = swaggerJsdoc(options);

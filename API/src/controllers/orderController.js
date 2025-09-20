@@ -71,24 +71,20 @@ export async function createOrder(req, res, next) {
       return res.status(401).json({ message: "Unauthorized: login required" });
     }
 
-    // ✅ Customer handle
     let customerDoc = req.user;
     if (customerInput?.email) {
       customerDoc = await User.findOne({ email: customerInput.email }) || customerDoc;
     }
     if (!customerDoc) return res.status(404).json({ message: "Customer not found" });
 
-    // ✅ Location check
     const customerLocation = customerInput?.location || customerDoc.location;
     if (!customerLocation?.coordinates) {
       return res.status(400).json({ message: "customer.location is required (Point with [lng,lat])" });
     }
 
-    // ✅ Branch check
     const branchDoc = await Branch.findById(branch);
     if (!branchDoc) return res.status(404).json({ message: "Branch not found" });
 
-    // ✅ Items process
     let itemsTotal = 0;
     const normalized = [];
 
@@ -111,7 +107,6 @@ export async function createOrder(req, res, next) {
       await inv.save();
     }
 
-    // ✅ Promotions apply karna
     let discount = 0;
     const appliedPromotions = [];
     const appliedPromoIds = new Set();
@@ -139,11 +134,9 @@ export async function createOrder(req, res, next) {
 
     
 
-    // ✅ Total calculation
     const deliveryFee = 50;
     const total = itemsTotal - discount + deliveryFee;
 
-    // ✅ Order create
     const subTotal = itemsTotal;
 
     const order = await Order.create({
@@ -172,13 +165,11 @@ export async function createOrder(req, res, next) {
     });
     
 
-    // ✅ Customer update
     await User.findByIdAndUpdate(customerDoc._id, {
       $inc: { orderCount: 1, totalOrderAmount: total },
       $set: { lastOrderDate: new Date() }
     });
 
-    // ✅ Socket event
     if (global._io) {
       global._io.to(String(branch)).emit("newOrder", {
         orderId: order._id,
