@@ -9,10 +9,10 @@ import {
 
 const router = express.Router();
 
+
 router.post("/", createPromotion);
 
 router.get("/", getAllPromotions);
-
 
 router.get("/:id", getPromotionById);
 

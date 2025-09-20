@@ -78,14 +78,15 @@ const orderSchema = new mongoose.Schema(
       paid: { type: Boolean, default: false }
     },
 
-    customerMissingProducts: [
-      {
-        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-        quantity: Number,
-        note: String,
-        reportedAt: { type: Date, default: Date.now }
-      }
-    ],
+   customerMissingProducts: [
+  {
+    _id: false,
+    productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+    quantity: { type: Number, default: 1 },
+    note: { type: String, default: "" },
+    reportedAt: { type: Date, default: Date.now }
+  }
+],
 
     cancelledBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     cancelledAt: { type: Date },
@@ -98,7 +99,19 @@ const orderSchema = new mongoose.Schema(
     },
 
     assignedAt: { type: Date },
-    deliveredAt: { type: Date }
+    deliveredAt: { type: Date },
+
+    feedback: {
+      reason: { type: String }, 
+      serviceRating: { type: Number, min: 1, max: 5 },  
+      qualityRating: { type: Number, min: 1, max: 5 },  
+      packagingRating: { type: Number, min: 1, max: 5 }, 
+      deliveryRating: { type: Number, min: 1, max: 5 },  
+      totalRating: { type: Number, min: 1, max: 5 }, 
+      productSuggestion: { type: String },
+      submittedAt: { type: Date, default: Date.now } 
+    }
+
   },
   { timestamps: true }
 );

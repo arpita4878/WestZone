@@ -344,3 +344,100 @@
  *                   type: string
  *                   example: "Invalid product ID"
  */
+
+
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   get:
+ *     summary: Get product details by ID
+ *     description: Fetches the details of a single product. Optionally includes branch-specific inventory if `branchId` is provided as a query parameter.
+ *     tags:
+ *       - Products
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Product ID
+ *       - in: query
+ *         name: branchId
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Branch ID to fetch inventory for
+ *     responses:
+ *       200:
+ *         description: Product details fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 product:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                     productName:
+ *                       type: string
+ *                     barcode:
+ *                       type: string
+ *                     description:
+ *                       type: string
+ *                     basePrice:
+ *                       type: number
+ *                     Quantity:
+ *                       type: string
+ *                     images:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     keywords:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     brandId:
+ *                       type: integer
+ *                     storeId:
+ *                       type: array
+ *                       items:
+ *                         type: integer
+ *                     stock:
+ *                       type: integer
+ *                     display:
+ *                       type: boolean
+ *                     attributes:
+ *                       type: object
+ *                       additionalProperties: true
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *                 branchInventory:
+ *                   type: object
+ *                   nullable: true
+ *                   description: Branch-specific inventory for the product
+ *       404:
+ *         description: Product not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Not found"
+ *       400:
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */

@@ -181,7 +181,7 @@ export const updateCategory = async (req, res) => {
 
     }
     catch (error) {
-    res.status(500).json({ status: false, message: error.message });
+        res.status(500).json({ status: false, message: error.message });
 
     }
 }
