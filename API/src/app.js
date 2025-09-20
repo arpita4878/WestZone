@@ -81,6 +81,6 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec,{
 
 connectDB().then(() => {
   httpServer.listen(port, "0.0.0.0", () => {
-    console.log(`Server running on http://192.168.1.19:${port}`);
+    console.log(`Server running on http://localhost:${port}`);
   });
 });

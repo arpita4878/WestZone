@@ -152,7 +152,7 @@ export async function createOrder(req, res, next) {
       subTotal,
       total,
       discount,
-      appliedPromotions, // ✅ add this line
+      appliedPromotions, 
       customerId: customerDoc._id,
       customer: {
         customerId: customerDoc._id,
