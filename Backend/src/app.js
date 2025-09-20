@@ -21,6 +21,8 @@ import promotionRouter from "./routes/promotionRoutes.js";
 import newOfferZoneRoutes from "./routes/newOfferZone.routes.js";
 import feedbackRoutes from "./routes/feedback.routes.js";
 import deliveryStaffRoutes from "./routes/deliveryStaff.routes.js";
+import pushNotificationRoutes from "./routes/pushNotification.routes.js";
+import pdfBannerRoutes from "./routes/pdfBanner.router.js"
 
 import reportsRouter from "./routes/report.router.js";
 
@@ -49,6 +51,8 @@ app.use("/api/promotions", promotionRouter);
 app.use("/api/new-offer-zone", newOfferZoneRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/delivery-staff", deliveryStaffRoutes);
+app.use("/api/push-notifications", pushNotificationRoutes);
+app.use("/api/pdf-banners", pdfBannerRoutes);
 
 
 // Swagger docs
