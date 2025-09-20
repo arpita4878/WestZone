@@ -1,9 +1,16 @@
 import PDFBanner from "../models/pdfBanner.model.js";
 
-// Add new PDF Banner
 export const createPDFBanner = async (req, res) => {
   try {
-    const banner = new PDFBanner(req.body);
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "PDF file is required" });
+    }
+
+    const banner = new PDFBanner({
+      name: req.body.name,
+      pdfUrl: `/uploads/pdfs/${req.file.filename}`, // or cloud URL
+    });
+
     await banner.save();
     res.status(201).json({ success: true, data: banner });
   } catch (error) {

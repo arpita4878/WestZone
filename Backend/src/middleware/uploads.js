@@ -10,10 +10,11 @@ const storage = multer.diskStorage({
       uploadPath = "uploads/brands";
     } else if (req.baseUrl.includes("category")) {
       uploadPath = "uploads/categories";
-    }else if (req.baseUrl.includes("product")) {
-      uploadPath = "uploads/products"; 
+    } else if (req.baseUrl.includes("product")) {
+      uploadPath = "uploads/products";
+    } else if (req.baseUrl.includes("pdf-banners")) {
+      uploadPath = "uploads/pdfs";  
     }
-
 
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
@@ -26,4 +27,20 @@ const storage = multer.diskStorage({
   },
 });
 
-export const upload = multer({ storage });
+const fileFilter = (req, file, cb) => {
+  if (req.baseUrl.includes("pdf-banners")) {
+    if (file.mimetype === "application/pdf") {
+      cb(null, true);
+    } else {
+      cb(new Error("Only PDF files are allowed for banners!"), false);
+    }
+  } else {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only image files are allowed!"), false);
+    }
+  }
+};
+
+export const upload = multer({ storage, fileFilter });

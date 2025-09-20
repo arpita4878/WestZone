@@ -5,7 +5,7 @@ import {
   getNotificationById,
   updateNotification,
   deleteNotification
-} from "../controllers/pushNotificationController";
+} from "../controllers/pushNotificationController.js";
 
 const router = express.Router();
 

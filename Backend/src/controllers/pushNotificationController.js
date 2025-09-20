@@ -1,4 +1,4 @@
-import PushNotification from "../models/pushNotification.model";
+import PushNotification from "../models/pushNotification.model.js";
 
 // Add new push notification
 export const createNotification = async (req, res) => {
