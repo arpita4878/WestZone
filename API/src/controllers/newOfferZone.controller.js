@@ -3,13 +3,23 @@ import NewOfferZone from "../models/newOfferZone.model.js";
 // Create New Offer
 export const createNewOffer = async (req, res) => {
   try {
-    const newOffer = new NewOfferZone(req.body);
+    const newOffer = new NewOfferZone({
+      ...req.body,
+      createdBy: {
+        name: req.user.name,
+        surname: req.user.surname,
+        email: req.user.email,
+        phone: req.user.phone,
+        date: new Date()
+      }
+    });
     await newOffer.save();
     res.status(201).json({ success: true, data: newOffer });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
 
 // Get all offers
 export const getNewOffers = async (req, res) => {
@@ -35,12 +45,27 @@ export const getNewOfferById = async (req, res) => {
 // Update offer
 export const updateNewOffer = async (req, res) => {
   try {
-    const updatedOffer = await NewOfferZone.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedOffer = await NewOfferZone.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...req.body,
+        updatedBy: {
+          name: req.user.name,
+          surname: req.user.surname,
+          email: req.user.email,
+          phone: req.user.phone,
+          date: new Date()
+        }
+      },
+      { new: true, runValidators: true }
+    );
+    if (!updatedOffer) return res.status(404).json({ success: false, message: "Offer not found" });
     res.json({ success: true, data: updatedOffer });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
 
 // Delete offer
 export const deleteNewOffer = async (req, res) => {

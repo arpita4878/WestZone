@@ -322,6 +322,22 @@ PUT-----http://localhost:5000/api/promotions/68cbfd3b561261f763a369f5
 delete-----http://localhost:5000/api/promotions/68cbfd3b561261f763a369f5
 
 
+POST-----http://localhost:5000/api/promotions
+
+{
+  "title": "Flat 10% Off on Selected Products",
+  "description": "Get 10% discount on selected products",
+  "promotionType": "percentage",
+  "discountValue": 10,
+  "couponCode": null,
+  "applyOn": "products",
+  "branches": [],        
+  "products": ["68ca8807e9bd1c18da6017c7"],  // Product IDs
+  "categories": [],
+  "startDate": "2025-09-15T00:00:00.000Z",
+  "endDate": "2025-09-30T23:59:59.000Z",
+  "status": "active"
+}
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -332,54 +348,111 @@ delete-----http://localhost:5000/api/promotions/68cbfd3b561261f763a369f5
 (Authorization required for online_customer)                                  
 POST-----http://localhost:5000/api/orders
 {
+  "_id": "650a8f4d9c1e8a0012345678",
   "branch": "68cbc9ba14147845b1ed4794",
   "items": [
     {
       "productId": "68ca8807e9bd1c18da6017c7",
       "productName": "Samsung Galaxy S24 Ultra",
-      "productCode": "SG-S24U-001",
+      "productCode": "SGS24U001",
       "qty": 1,
-      "price": 124999
+      "price": 120000
     }
   ],
-  "appliedPromotions": [
-    {
-      "promoId": "68caa1a750a7814a09f862c4",
-      "title": "Flat 10% Off",
-      "discountValue": 10
-    }
-  ],
+  "subTotal": 120000,
+  "discount": 10000,
+  "total": 110000,
+  "status": "delivered",
   "customer": {
     "name": "Rahul Sharma",
     "phone": 9876543210,
     "address": "123, MG Road, Delhi",
-    "customerId": 3,
-    "location": {
-      "type": "Point",
-      "coordinates": [77.209, 28.6139]
-    }
+    "customerId": 2,
+    "location": { "type": "Point", "coordinates": [77.2090, 28.6139] }
   },
-  "payment": {
-    "method": "online",
-    "paid": true
+  "delivery": {
+    "zoneId": "650a8d3c9c1e8a0012349999",
+    "fee": 50,
+    "etaMinutes": 45,
+    "route": { "distanceMeters": 12000, "durationSeconds": 1800, "polyline": "abcd1234..." }
   },
-  "delivery_boy": {
-    "id": 101,
-    "name": "Amit Kumar",
-    "email": "amit.kumar@delivery.com"
-  }
+  "payment": { "method": "online", "paid": true },
+  "delivery_boy": { "id": 101, "name": "Suresh Kumar", "email": "suresh.kumar@example.com" },
+  "assignedAt": "2025-09-20T08:00:00.000Z",
+  "deliveredAt": "2025-09-20T09:15:00.000Z",
+  "feedback": {
+    "reason": "Excellent service and product quality",
+    "serviceRating": 5,
+    "qualityRating": 5,
+    "packagingRating": 4,
+    "deliveryRating": 5,
+    "totalRating": 5,
+    "productSuggestion": "Add more color options",
+    "submittedAt": "2025-09-20T10:00:00.000Z"
+  },
+  "createdAt": "2025-09-20T07:50:00.000Z",
+  "updatedAt": "2025-09-20T10:00:00.000Z"
 }
+
+
 
                      
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
 
+                                                            #FeedBack
+
+
+(order id)                                    
+POST-----http://localhost:5000/api/feedback/68ce77e4ffa7e09d22980cf1/feedback
+
+{
+  "reason": "Product arrived late",
+  "serviceRating": 4,
+  "qualityRating": 5,
+  "packagingRating": 3,
+  "deliveryRating": 4,
+  "productSuggestion": "Include more color options",
+  "comment": "Overall the product was good, but the delivery was a little late."
+}
 
 
 
 
 
+----------------------------------------------------------------------------------------------------------------------------
+
+
+
+                                                              newOfferZone
+ 
+POST-----http://localhost:5000/api/new-offer-zone     
+                                  
+{
+  "title": "Fasting treats",
+  "description": "Fasting treats",
+  "typeOfOffer": "ProductRow section",
+  "startDate": "2025-09-20T00:00:00.000Z",
+  "endDate": "2025-09-30T23:59:59.000Z",
+  "status": "ended",
+  "priority": 1,
+  "products": [
+    "68ca8807e9bd1c18da6017c7"
+  ],
+  "categories": [
+    "68ca8647e878e3f49364e0b8"
+  ],
+  "branches": [
+    "68cbc9ba14147845b1ed4794"
+  ]
+}
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------
 
 
 

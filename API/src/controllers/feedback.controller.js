@@ -1,68 +1,49 @@
 import Feedback from "../models/feedback.model.js";
-import User from "../models/user.model.js"; 
-
+import User from "../models/user.model.js";
+// Create feedback / suggestion
 export const createSuggestion = async (req, res) => {
   try {
-    const { email, suggestion } = req.body;
+    const { user, suggestion, order, orderItemId } = req.body;
 
-    if (!email || !suggestion) {
-      return res.status(400).json({ message: "Email and suggestion are required" });
+    if (!user || !suggestion) {
+      return res.status(400).json({ message: "User and suggestion are required" });
     }
 
-   const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: "User not found with this email" });
-    }
+    const userDoc = await User.findById(user);
+    if (!userDoc) return res.status(404).json({ message: "User not found" });
 
     const feedback = new Feedback({
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      phone: user.phone,
+      user: userDoc._id,
+      userInfo: {
+        name: userDoc.name,
+        surname: userDoc.surname,
+        email: userDoc.email,
+        phone: userDoc.phone,
+        registeredDate: userDoc.registeredDate
+      },
+      order: order || null,
+      orderItemId: orderItemId || null,
       suggestion
-     
     });
 
     await feedback.save();
-
     res.status(201).json({ success: true, data: feedback });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-
-
-
-
-
-// // Add new feedback
-// export const addFeedback = async (req, res) => {
-//     try {
-//         const { name, surname, email, phone, suggestion, state } = req.body;
-
-//         const feedback = new Feedback({
-//             name,
-//             surname,
-//             email,
-//             phone,
-//             suggestion,
-//             state
-//         });
-
-//         const savedFeedback = await feedback.save();
-//         res.status(201).json({ message: "Feedback submitted successfully", data: savedFeedback });
-//     } catch (error) {
-//         res.status(500).json({ message: "Error submitting feedback", error });
-//     }
-// };
-
-// Get all feedbacks (optional)
+// Get all feedbacks
 export const getFeedbacks = async (req, res) => {
-    try {
-        const feedbacks = await Feedback.find().sort({ date: -1 });
-        res.status(200).json({ data: feedbacks });
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching feedbacks", error });
-    }
+  try {
+    const feedbacks = await Feedback.find()
+      .populate("suggestion", "productName")  // product info populate
+      .sort({ _id: -1 });
+
+    res.status(200).json({ success: true, data: feedbacks });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
