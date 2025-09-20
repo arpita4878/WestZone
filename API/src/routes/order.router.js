@@ -17,43 +17,44 @@ import {
   listGoneForDeliveryOrders,
   getOrderByUserAndId,
   getOrdersByUser,
-  notifyBranch
+  notifyBranch,
+  submitFeedback
 } from "../controllers/orderController.js"
 
-import { protect } from "../middleware/auth.js";
+import { protect, restrictTo } from "../middleware/auth.js";
 
 const router = Router();
 
 router.get("/", listOrders);
 router.post("/", protect,createOrder);
-router.post("/:id/report-missing", reportMissingProducts);
+router.post("/:id/report-missing",protect, reportMissingProducts);
 router.post("/:id/cancel-order",protect, cancelOrderByCustomer);
 router.get("/user/:userId", getOrdersByUser);
-router.get("/user/:userId/order/:orderId", getOrderByUserAndId);
+router.get("/user/:userId/order/:orderId",protect, getOrderByUserAndId);
 router.post("/notify-branch", notifyBranch);
+router.get("/:id/trackOrder", trackOrder);
+router.post("/:id/feedback", protect, submitFeedback);
 
 //delivery boy
 router.put("/:id/assign", assignDelivery);
-
-router.get("/:id/trackOrder", trackOrder);
 
 router.put("/:id/status", updateOrderStatus);
 
 router.put("/:id/confirm", confirmDelivery);
 
 //admin
-router.get("/new",listNewOrders)
+router.get("/new",protect,restrictTo("super_admin"),listNewOrders)
 
-router.get("/under-process",listUnderProcessOrders)
+router.get("/under-process",protect,restrictTo("super_admin"),listUnderProcessOrders)
 
-router.get("/out-for-delivery",listGoneForDeliveryOrders)
+router.get("/out-for-delivery",protect,restrictTo("super_admin"),listGoneForDeliveryOrders)
 
-router.get("/delivered",deliveredOrder)
+router.get("/delivered",protect,restrictTo("super_admin"),deliveredOrder)
 
-router.get("/pending-confirm",pendingConfirmOrders)
+router.get("/pending-confirm",protect,restrictTo("super_admin"),pendingConfirmOrders)
 
-router.get("/delivered-missing",deliveredOrdersWithMissingProducts)
+router.get("/delivered-missing",protect,restrictTo("super_admin"),deliveredOrdersWithMissingProducts)
 
-router.get("/cancel-order",cancelledOrders)
+router.get("/cancel-order",protect,restrictTo("super_admin"),cancelledOrders)
 
 export default router;

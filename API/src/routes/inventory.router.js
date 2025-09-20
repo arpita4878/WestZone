@@ -16,6 +16,6 @@ router.post("/mine", upsertMyBranchInventory);
 
 
 // router.get("/branch/:branchId", protect, getInventoryForBranch);
-router.get("/branch/:branchId",  getInventoryForBranch);
+router.get("/:branchId",  getInventoryForBranch);
 
 export default router;
