@@ -249,7 +249,11 @@
  *                   example: false
  *                 message:
  *                   type: string
+<<<<<<< HEAD:API/Swagger/userSwagger.js
  *                   example: "Login failed: server error"
+=======
+ *                   example: Login failed
+>>>>>>> 46a2fffc3be265d15ce468bc22e07af493477752:Backend/Swagger/userSwagger.js
  *                 code:
  *                   type: integer
  *                   example: 500
@@ -631,4 +635,85 @@
  *         description: Phone number missing
  *       "500":
  *         description: Server error
+ */
+
+
+/**
+ * @swagger
+ * /api/users/delivery-boys:
+ *   get:
+ *     summary: Get all delivery boys
+ *     description: Fetch all users who have the role **delivery_boy**. Useful for assigning orders or tracking delivery staff.
+ *     tags:
+ *       - Users
+ *     responses:
+ *       200:
+ *         description: Successfully fetched delivery boys
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: boolean
+ *                   example: true
+ *                 count:
+ *                   type: integer
+ *                   example: 2
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: integer
+ *                         example: 1001
+ *                       designation:
+ *                         type: string
+ *                         example: Delivery Staff
+ *                       name:
+ *                         type: string
+ *                         example: Ramesh
+ *                       surname:
+ *                         type: string
+ *                         example: Kumar
+ *                       phone:
+ *                         type: string
+ *                         example: "+919876543210"
+ *                       role:
+ *                         type: string
+ *                         example: delivery_boy
+ *                       branch:
+ *                         type: string
+ *                         example: Downtown Branch
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: 2025-09-15T10:00:00.000Z
+ *       404:
+ *         description: No delivery boys found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: No delivery boys found
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Internal Server Error
  */

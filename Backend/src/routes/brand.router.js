@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/",protect,restrictTo("super_admin"), upload.single('image'), createBrand);           
 router.get("/", getBrands);              
 router.get("/:brandId/products", getBrandWithProducts); 
-router.put("/:brandId",protect,restrictTo("super_admin"),updateBrand);          
+router.put("/:brandId",protect,restrictTo("super_admin"), upload.single('image'), updateBrand);          
 router.delete("/:brandId",protect,restrictTo("super_admin"), deleteBrand);
 
 export default router;

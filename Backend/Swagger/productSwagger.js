@@ -441,3 +441,234 @@
  *                 message:
  *                   type: string
  */
+
+
+/**
+ * @swagger
+ * /api/inventory/mine:
+ *   post:
+ *     summary: Add or update product inventory for my branch
+ *     description: Insert or update inventory for a product in the current user's branch. If the product already exists in branch inventory, it will be updated.
+ *     tags: [Inventory]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productId:
+ *                 type: string
+ *                 example: 68c0096cc280f778cee715e2
+ *               branchId:
+ *                 type: string
+ *                 example: 68bff3a78c49e3c3b4086be1
+ *               price:
+ *                 type: number
+ *                 example: 1249
+ *               quantity:
+ *                 type: integer
+ *                 example: 15
+ *               lowStockThreshold:
+ *                 type: integer
+ *                 example: 10
+ *     responses:
+ *       200:
+ *         description: Inventory successfully added/updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   example: 68d123abc456def7890ghijk
+ *                 productId:
+ *                   type: string
+ *                   example: 68c0096cc280f778cee715e2
+ *                 branchId:
+ *                   type: string
+ *                   example: 68bff3a78c49e3c3b4086be1
+ *                 price:
+ *                   type: number
+ *                   example: 1249
+ *                 quantity:
+ *                   type: integer
+ *                   example: 15
+ *                 lowStockThreshold:
+ *                   type: integer
+ *                   example: 10
+ *       400:
+ *         description: Invalid input
+ */
+
+/**
+ * @swagger
+ * /api/inventory/mine/bulk:
+ *   post:
+ *     summary: Bulk upload inventory for my branch
+ *     description: Upload a CSV or Excel file to bulk update inventory for the logged-in user's branch.
+ *     tags: [Inventory]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: CSV or Excel file with product SKU, price, quantity, and low stock threshold
+ *     responses:
+ *       200:
+ *         description: Bulk inventory upload results
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 updated:
+ *                   type: integer
+ *                   example: 20
+ *                 unknownSkus:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   example: ["sku123", "sku999"]
+ *       400:
+ *         description: Invalid input or file error
+ */
+
+/**
+ * @swagger
+ * /api/branches/{branchId}:
+ *   get:
+ *     summary: Get branch details by ID
+ *     description: Get inventory for brach.
+ *     tags: [Inventory]
+ *     parameters:
+ *       - in: path
+ *         name: branchId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Branch ID
+ *     responses:
+ *       200:
+ *         description: Branch details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   example: 68bff3a78c49e3c3b4086be1
+ *                 branchName:
+ *                   type: string
+ *                   example: Downtown Branch
+ *                 code:
+ *                   type: string
+ *                   example: B001
+ *                 address:
+ *                   type: string
+ *                   example: Main Street
+ *                 location:
+ *                   type: object
+ *                   properties:
+ *                     type:
+ *                       type: string
+ *                       example: Point
+ *                     coordinates:
+ *                       type: array
+ *                       items:
+ *                         type: number
+ *                       example: [77.5946, 12.9716]
+ *                 stores:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         example: 68bff3a78c49e3c3b4086be2
+ *                       name:
+ *                         type: string
+ *                         example: Store A
+ *                       isOpen:
+ *                         type: boolean
+ *                         example: true
+ *                       openTime:
+ *                         type: string
+ *                         example: "09:00"
+ *                       closeTime:
+ *                         type: string
+ *                         example: "21:00"
+ *                       zones:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             _id:
+ *                               type: string
+ *                               example: 68bff3a78c49e3c3b4086be3
+ *                             name:
+ *                               type: string
+ *                               example: Zone 1
+ *                             polygon:
+ *                               type: object
+ *                               properties:
+ *                                 type:
+ *                                   type: string
+ *                                   example: Polygon
+ *                                 coordinates:
+ *                                   type: array
+ *                                   items:
+ *                                     type: array
+ *                                     items:
+ *                                       type: array
+ *                                       items:
+ *                                         type: number
+ *                                   example: [
+ *                                     [77.5946, 12.9716],
+ *                                     [77.595, 12.972],
+ *                                     [77.596, 12.971],
+ *                                     [77.5946, 12.9716]
+ *                                   ]
+ *                             freeDeliveryAbove:
+ *                               type: number
+ *                               example: 500
+ *                             minOrderValue:
+ *                               type: number
+ *                               example: 100
+ *                             deliveryTime:
+ *                               type: string
+ *                               example: 30-45 mins
+ *                             deliveryCharge:
+ *                               type: number
+ *                               example: 20
+ *                             deliveryChargeAfterKm:
+ *                               type: number
+ *                               example: 10
+ *                             paymentMethods:
+ *                               type: array
+ *                               items:
+ *                                 type: string
+ *                               example: ["card", "cash", "upi"]
+ *                 isActive:
+ *                   type: boolean
+ *                   example: true
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: 2025-09-09T09:30:15.944Z
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: 2025-09-09T09:30:15.944Z
+ *       404:
+ *         description: Branch not found
+ *       400:
+ *         description: Invalid request
+ */

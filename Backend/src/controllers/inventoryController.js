@@ -38,7 +38,7 @@ export const getInventoryForBranch = async (req, res) => {
         return res.status(403).json({ message: "Access denied for this branch" });
       }
     }
-    const items = await Inventory.find({ branchId }).populate("productId", "name sku brand category");
+    const items = await Inventory.find({ branchId }).populate("productId", "name barcode brand category");
     res.json(items);
   } catch (e) {
     res.status(400).json({ message: e.message });
@@ -66,13 +66,13 @@ export const bulkUploadForMyBranch = async (req, res) => {
    
     const skus = rows.map(r => String(r.sku || "").trim()).filter(Boolean);
     const products = await Product.find({ sku: { $in: skus } }, "_id sku");
-    const skuToId = new Map(products.map(p => [p.sku, p._id]));
+    const sbarcodetoId = new Map(products.map(p => [p.barcode, p._id]));
 
     const ops = [];
     const unknownSkus = [];
 
     for (const r of rows) {
-      const sku = String(r.sku || "").trim();
+      const barcode = String(r.barcode || "").trim();
       const price = Number(r.price ?? 0);
       const quantity = Number(r.quantity ?? 0);
       const lowStockThreshold = Number(r.lowStockThreshold ?? 0);
@@ -123,7 +123,7 @@ function parseCsvBuffer(buffer) {
 function normalizeRow(r) {
   const pick = (obj, keys) => keys.find(k => k in obj) ? obj[keys.find(k => k in obj)] : undefined;
   return {
-    sku: pick(r, ["sku", "SKU", "Sku"]),
+    barcode: pick(r, ["barcode", "barcode", "barcode"]),
     price: pick(r, ["price", "Price", "PRICE"]),
     quantity: pick(r, ["quantity", "Quantity", "QTY", "qty"]),
     lowStockThreshold: pick(r, ["lowStockThreshold", "LowStockThreshold", "LowStock", "threshold"])

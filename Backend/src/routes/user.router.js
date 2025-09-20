@@ -18,4 +18,7 @@ router.delete('/delete', UserController.deleteUser);
 
 router.get("/get-customer/:phone",UserController.getCustomerByPhone)
 
+router.get("/delivery-boys", UserController.getDeliveryBoys);
+
+
 export default router;

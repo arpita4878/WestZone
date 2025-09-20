@@ -1,4 +1,4 @@
-import Branch from "../models/brand.model.js";
+import Branch from "../models/branch.model.js";
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import { point, polygon as turfPolygon } from '@turf/helpers';
 
