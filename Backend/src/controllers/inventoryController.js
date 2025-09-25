@@ -27,7 +27,18 @@ export const upsertMyBranchInventory = async (req, res) => {
   }
 };
 
-
+export const getInventoryById = async (req,res)=>{
+  try{
+    let {_id} = req.params
+    // console.log(req.params);
+    
+    const inventory = await Inventory.find(_id)
+    res.status(200).json(inventory)
+  }
+  catch(error){
+    res.status(500).json("intenal server error",error)
+  } 
+}
 
 export const getInventoryForBranch = async (req, res) => {
   try {
@@ -64,12 +75,12 @@ export const bulkUploadForMyBranch = async (req, res) => {
     }
 
    
-    const skus = rows.map(r => String(r.sku || "").trim()).filter(Boolean);
-    const products = await Product.find({ sku: { $in: skus } }, "_id sku");
+    const barcode = rows.map(r => String(r.barcode || "").trim()).filter(Boolean);
+    const products = await Product.find({ barcode: { $in: barcode } }, "_id barcode");
     const sbarcodetoId = new Map(products.map(p => [p.barcode, p._id]));
 
     const ops = [];
-    const unknownSkus = [];
+    const unknownbarcode = [];
 
     for (const r of rows) {
       const barcode = String(r.barcode || "").trim();
@@ -77,8 +88,8 @@ export const bulkUploadForMyBranch = async (req, res) => {
       const quantity = Number(r.quantity ?? 0);
       const lowStockThreshold = Number(r.lowStockThreshold ?? 0);
 
-      const productId = skuToId.get(sku);
-      if (!productId) { unknownSkus.push(sku); continue; }
+      const productId = barcodeToId.get(barcode);
+      if (!productId) { unknownbarcode.push(barcode); continue; }
 
       ops.push({
         updateOne: {
@@ -93,7 +104,7 @@ export const bulkUploadForMyBranch = async (req, res) => {
 
     res.json({
       updated: ops.length,
-      unknownSkus
+      unknownbarcode
     });
   } catch (e) {
     res.status(400).json({ message: e.message });

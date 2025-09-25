@@ -49,7 +49,7 @@ const orderSchema = new mongoose.Schema(
         "pending_confirm",
         "new"
       ],
-      default: "delivered"
+      default: "new"
     },
  
     customer: {

@@ -6,7 +6,7 @@ export const createBrand = async (req, res) => {
     const brands = await Brands.find();
     const _id = brands.length === 0 ? 1 : brands[brands.length - 1]._id + 1;
 
-    const { brandName, isInList } = req.body;
+    const { brandName, isInList, priority } = req.body;
     let image = null;
 
     if (req.file) {
@@ -18,7 +18,7 @@ export const createBrand = async (req, res) => {
       return res.status(400).json({ status: false, message: "Brand already exists" });
     }
 
-    const brand = await Brands.create({ _id, brandName, isInList, image });
+    const brand = await Brands.create({ _id, brandName, isInList, image , priority});
     res.status(201).json({ status: true, message: "Brand Created Successfully", data: brand });
   } catch (err) {
     res.status(500).json({ status: false, message: err.message });
@@ -75,12 +75,12 @@ export const updateBrand = async (req, res) => {
 
     let image = req.body.image;
     if (req.file) {
-      image = req.file.path; // handle uploaded file
+      image = req.file.path; 
     }
 
     const update = await Brands.findOneAndUpdate(
       { _id: id },
-      { brandName, isInList, image },
+      { brandName, isInList, image , priority},
       { new: true }
     );
 

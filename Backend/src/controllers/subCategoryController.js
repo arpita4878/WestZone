@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 export const addSubCategory = async (req, res) => {
   try {
     const { id } = req.params; 
-    const { subCategoryName } = req.body;
+    const { subCategoryName, priority } = req.body;
 
     if (!subCategoryName) {
       return res.status(400).json({ status: false, message: "Subcategory name is required" });
@@ -38,8 +38,8 @@ export const addSubCategory = async (req, res) => {
 
 export const editSubCategory = async (req, res) => {
   try {
-    const { id, subCategoryId } = req.params; // both from URL
-    const { newName } = req.body;
+    const { id, subCategoryId } = req.params; 
+    const { newName , priority} = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ status: false, message: "Invalid category ID" });
