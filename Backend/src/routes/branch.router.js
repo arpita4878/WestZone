@@ -20,15 +20,15 @@ import {
   deleteZone,
   checkDeliveryAvailability
 } from "../controllers/zoneController.js"
-
+import { upload } from "../middleware/uploads.js";
 const router = express.Router();
 
 // Branch routes
-router.post("/", createBranch); 
+router.post("/", upload.single("image"), createBranch);
 router.get("/", listBranches); 
 router.get("/location", getBranchesByLocation);
 router.get("/:id", getBranch);
-router.put("/:id", updateBranch);
+router.put("/:id",upload.single("image"), updateBranch);
 router.delete("/:id", deleteBranch);
 
 // Store routes

@@ -14,6 +14,8 @@ const storage = multer.diskStorage({
       uploadPath = "uploads/products";
     } else if (req.baseUrl.includes("pdf-banners")) {
       uploadPath = "uploads/pdfs";  
+    }else if (req.baseUrl.includes("branch")) {
+      uploadPath = "uploads/branch";  
     }
 
     if (!fs.existsSync(uploadPath)) {

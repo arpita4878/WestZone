@@ -3,21 +3,27 @@ import Branch from "../models/branch.model.js"
 
 export const createBranch = async (req, res) => {
   try {
-    const { branchName, code, location } = req.body;
-    if (!branchName || !code) {
-      return res.status(400).json({ status: false, message: "branchName and code are required" });
-    }
+    const { branchName, code, address } = req.body;
 
-    if (!location?.coordinates || location.coordinates.length !== 2) {
-      return res.status(400).json({ status: false, message: "Valid location coordinates are required" });
-    }
+    const location = typeof req.body.location === "string" ? JSON.parse(req.body.location) : req.body.location;
+    const stores = typeof req.body.stores === "string" ? JSON.parse(req.body.stores) : req.body.stores;
 
-    const branch = await Branch.create(req.body);
+    const branch = await Branch.create({
+      branchName,
+      code,
+      address,
+      location,
+      stores,
+      image: req.file?.path || null
+    });
+
     res.status(201).json({ status: true, message: "Branch created successfully", branch });
   } catch (err) {
     res.status(400).json({ status: false, message: err.message });
   }
 };
+
+
 
 
 export const listBranches = async (req, res) => {
@@ -135,13 +141,30 @@ export const getBranch = async (req, res) => {
 };
 
 
+
 export const updateBranch = async (req, res) => {
   try {
-    const branch = await Branch.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedData = { ...req.body };
+    
+    if (typeof req.body.location === "string") {
+      updatedData.location = JSON.parse(req.body.location);
+    }
+
+    if (typeof req.body.stores === "string") {
+      updatedData.stores = JSON.parse(req.body.stores);
+    }
+
+    if (req.file) {
+      updatedData.image = req.file.path;
+    }
+
+    const branch = await Branch.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+
     if (!branch) return res.status(404).json({ message: "Branch not found" });
-    res.json(branch);
+
+    res.json({ status: true, message: "Branch updated successfully", branch });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ status: false, message: err.message });
   }
 };
 
