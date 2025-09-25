@@ -1,16 +1,15 @@
 import express from "express";
 import { createBrand, getBrands ,updateBrand,deleteBrand, getBrandWithProducts} from "../controllers/brandcontroller.js";
-import { protect, restrictTo } from "../middleware/auth.js";
 import { upload } from "../middleware/uploads.js";
 const router = express.Router();
 
-//router.use(protect, restrictTo("super_admin"));
+//router.use(protect,);
 
-router.post("/",protect,restrictTo("super_admin"), upload.single('image'), createBrand);           
+router.post("/", upload.single('image'), createBrand);           
 router.get("/", getBrands);              
 router.get("/:brandId/products", getBrandWithProducts); 
-router.put("/:brandId",protect,restrictTo("super_admin"), upload.single('image'), updateBrand);          
-router.delete("/:brandId",protect,restrictTo("super_admin"), deleteBrand);
+router.put("/:brandId", upload.single('image'), updateBrand);          
+router.delete("/:brandId", deleteBrand);
 
 export default router;
                 

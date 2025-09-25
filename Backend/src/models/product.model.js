@@ -9,10 +9,10 @@ const productSchema = new mongoose.Schema(
     attributes: { type: Map, of: String }, // e.g. color:size
     basePrice: { type: Number, default: 0 },
     Quantity: { type: String, default: 0 },
-    // images: [{ type: String }], // Array of image 
+    images: [{ type: String }], // Array of image 
     keywords: [{ type: String, index: true }], 
     brandId: { type: Number, required: true },
-    storeId:[{type:Number}],
+storeId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Store" }],
     stock: { type: Number, default: 0 },   
     display: { type: Boolean, default: true }
   },
@@ -22,8 +22,8 @@ const productSchema = new mongoose.Schema(
 productSchema.index({
   name: "text",
   barcode: "text",
-  brand: "text",
-  category: "text",
+  brandId: "text",
+  categoryId: "text",
   description: "text",
   keywords:"text",
   

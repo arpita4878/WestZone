@@ -39,34 +39,54 @@ export const createProduct = async (req, res) => {
 };
 
 
-
 export const updateProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
-    let images = product.images || [];
+
+    let images = [];
+if (req.body.images) {
+  try {
+    images = JSON.parse(req.body.images);
+  } catch {
+    images = [];
+  }
+} 
+
     if (req.files?.length > 0) {
-      images = [...images, ...req.files.map(f => f.path)];
+      const newImages = req.files.slice(0, 5); 
+      const newImagePaths = newImages.map(f => f.path);
+
+      images = [...images, ...newImagePaths].slice(0,5);
     }
 
-    // Handle attributes correctly
     let attributes = req.body.attributes;
     if (typeof attributes === "string") {
       try {
-        attributes = JSON.parse(attributes); // if frontend sends JSON string
+        attributes = JSON.parse(attributes);
       } catch {
-        attributes = {}; // fallback
+        attributes = {};
       }
-    }
-    if (Array.isArray(attributes)) {
-      attributes = Object.fromEntries(attributes.map((v, i) => [`attr${i + 1}`, v]));
     }
 
     const updateData = {
-      ...req.body,
+      productName: req.body.productName,
+      barcode: req.body.barcode,
+      brandId: req.body.brandId,
+      categoryId: req.body.categoryId,
+      description: req.body.description,
+      basePrice: req.body.basePrice,
+      Quantity: req.body.Quantity,
+      attributes,
       images,
-      attributes, // ensure it's an object
+      keywords: req.body.keywords
+        ? (Array.isArray(req.body.keywords) ? req.body.keywords : req.body.keywords.split(","))
+        : [],
+      storeId: Array.isArray(req.body.storeId) ? req.body.storeId : [req.body.storeId],
+      stock: req.body.stock,
+      display: req.body.display,
+      updatedAt: new Date()
     };
 
     const updated = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true });

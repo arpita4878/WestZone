@@ -23,7 +23,7 @@ import feedbackRoutes from "./routes/feedback.routes.js";
 import deliveryStaffRoutes from "./routes/deliveryStaff.routes.js";
 import pushNotificationRoutes from "./routes/pushNotification.routes.js";
 import pdfBannerRoutes from "./routes/pdfBanner.router.js"
-
+import path from 'path'
 import reportsRouter from "./routes/report.router.js";
 
 import { initSocket } from "./socket.js";
@@ -68,6 +68,7 @@ app.use("/api-docs",   swaggerUi.serve,
     customSiteTitle: "WestZone API Docs",
   })
 )
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 // Initialize Socket.IO
 initSocket(httpServer);

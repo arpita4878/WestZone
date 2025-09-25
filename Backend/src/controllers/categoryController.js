@@ -4,7 +4,7 @@ import fs from 'fs'
 
 export const createCategory = async (req, res) => {
     try {
-        let { categoryName, isSubCategory, subCategories, isGramBased, isInList } = req.body;
+        let { categoryName, isSubCategory, subCategories, isGramBased, isInList , priority} = req.body;
 
         isSubCategory = isSubCategory === "true" || isSubCategory === true;
         isGramBased = isGramBased === "true" || isGramBased === true;
@@ -47,7 +47,8 @@ export const createCategory = async (req, res) => {
             isGramBased,
             subCategories: subCategories || [],
             isInList,
-            categoryImage
+            categoryImage,
+            priority
         })
 
         res.status(201).json({
@@ -114,7 +115,7 @@ export const deleteCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
     try {
 
-        let { isSubCategory, isGramBased, isInList, subCategories } = req.body;
+        let { isSubCategory, isGramBased, isInList, subCategories, priority } = req.body;
 
         isSubCategory = isSubCategory === "true" || isSubCategory === true;
         isGramBased = isGramBased === "true" || isGramBased === true;
@@ -169,6 +170,7 @@ export const updateCategory = async (req, res) => {
                 isInList,
                 subCategories: subCategories || [],
                 categoryImage: req.body.categoryImage ?? category.categoryImage,
+                priority
             },
             { new: true }
         );

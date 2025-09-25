@@ -249,11 +249,7 @@
  *                   example: false
  *                 message:
  *                   type: string
-<<<<<<< HEAD:API/Swagger/userSwagger.js
- *                   example: "Login failed: server error"
-=======
- *                   example: Login failed
->>>>>>> 46a2fffc3be265d15ce468bc22e07af493477752:Backend/Swagger/userSwagger.js
+ *                   example: "Login failed"
  *                 code:
  *                   type: integer
  *                   example: 500

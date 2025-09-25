@@ -6,6 +6,10 @@ const subCategorySchema = new mongoose.Schema(
             type: String,
             required: [true, "subcayegory name is required "],
             trim: true
+        },
+        priority:{
+            type:Number,
+            default:5
         }
     },
     { _id: true }
@@ -23,6 +27,10 @@ const categorySchema = new mongoose.Schema(
         isSubCategory: {
             type: Boolean,
             default: false
+        },
+        priority:{
+            type:Number,
+            default:5
         },
         subCategories: [subCategorySchema],
         isInList: {

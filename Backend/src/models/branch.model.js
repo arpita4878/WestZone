@@ -25,7 +25,7 @@ const storeSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email:{type:String, required:true},
   phone: {  
-  type: String, // use String instead of Number (to keep +, leading 0, etc.)
+  type: String, 
     required: [true, "Phone number is required"],
     validate: {
       validator: function (v) {
@@ -34,7 +34,12 @@ const storeSchema = new mongoose.Schema({
         return phoneNumber ? phoneNumber.isValid() : false;
       },
       message: (props) => `${props.value} is not a valid phone number!`
-    }
+    },storeId: [{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "Store",  
+  required: true
+}],
+
   },
 
   
